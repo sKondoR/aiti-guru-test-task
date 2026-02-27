@@ -1,0 +1,169 @@
+'use client'
+
+import { useState, useCallback, useEffect } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import useFetchProducts from '@/lib/hooks/useFetchProducts'
+import { observer } from 'mobx-react-lite'
+import { mobxStore } from '@/lib/store/mobxStore'
+import { DEFAULT_CITY, DEFAULT_URL_CODE } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
+
+export default observer(
+function ResultsForm() {
+  const router = useRouter()
+  const store = mobxStore()
+  const [code, setCode] = useState(store.code)
+  const [command, setCommand] = useState(store.command)
+  const { isCommandFilterEnabled, isOnlyOnline } = store
+
+  const {
+    disciplines,
+    isLoading: isProductsLoading,
+    error: disciplinesError,
+    refetch
+  } = useFetchProducts({
+    code,
+    enabled: !!code
+  })
+
+  useEffect(() => {
+    if (disciplines && disciplines.length > 0) {
+      store.setCode(code)
+      store.setProductsData(disciplines)
+    }
+  }, [disciplines, code, store])
+
+  useEffect(() => {
+    store.setIsProductsLoading(isProductsLoading)
+  }, [isProductsLoading, store])
+
+  useEffect(() => {
+    if (disciplinesError) {
+      console.error('Ошибка загрузки данных:', disciplinesError)
+      const url = new URL(window.location.href)
+      router.replace(url.pathname)
+    }
+  }, [disciplinesError, router])
+
+  useEffect(() => {
+    if (disciplines && disciplines.length > 0) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('code', code)
+      router.replace(url.pathname + url.search)
+    } else if (disciplines && disciplines.length === 0) {
+      const url = new URL(window.location.href)
+      router.replace(url.pathname)
+    }
+  }, [disciplines, code, router])
+
+
+  const debouncedCommandFetch = useDebouncedCallback(
+    (command: string) => {
+      store.setCommand(command)
+    },
+    300
+  )
+
+  const handleUrlChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newCode = e.target.value
+      setCode(newCode)
+},
+    []
+  )
+
+  const handleCommandChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newCommand = e.target.value
+      setCommand(newCommand)
+      debouncedCommandFetch(newCommand)
+    },
+    [debouncedCommandFetch]
+  )
+
+  const handleCommandFilterToggle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const isEnabled = e.target.checked
+      store.setIsCommandFilterEnabled(isEnabled)
+    },
+    []
+  )
+
+  const handleOnlyOnlineToggle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const isEnabled = e.target.checked
+      store.setIsOnlyOnline(isEnabled)
+    },
+    []
+  )
+
+  return (
+    <div className="flex flex-wrap gap-4">
+      <div className="w-full md:w-auto">
+        <label
+          htmlFor="url"
+          className="block text-sm font-medium text-gray-700 mb-2"
+          title="Введите код соревнований из URL"
+        >
+          код соревнований
+          <span className="text-xs text-gray-500"> (например {DEFAULT_URL_CODE})</span>
+        </label>
+        <div className="relative">
+          <input
+            type="text"
+            id="code"
+            value={code}
+            onChange={handleUrlChange}
+            placeholder="2602vrn"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+          />
+        </div>
+      </div>
+      
+      <div className="w-full md:w-auto">
+        <label
+          htmlFor="command"
+          className="block text-sm font-medium text-gray-700 mb-2"
+          title="Скалолазы из команды будут подсвечены"
+        >
+          команда
+          <span className="text-xs text-gray-500"> (например {DEFAULT_CITY})</span>
+        </label>
+        <input
+          type="text"
+          id="command"
+          value={command}
+          onChange={handleCommandChange}
+          placeholder="СПБ"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div className="w-full md:w-auto">
+        <div className="flex flex-start align-center">
+          <input
+            type="checkbox"
+            id="commandFilter"
+            checked={isCommandFilterEnabled}
+            onChange={handleCommandFilterToggle}
+            className="cursor-pointer h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-[3px]"
+          />
+          <label htmlFor="commandFilter" className="cursor-pointer text-sm font-medium text-gray-700 ml-2">
+            только команда
+          </label>
+        </div>
+        <div className="flex flex-start align-center mt-2">
+          <input
+            type="checkbox"
+            id="onlineFilter"
+            checked={isOnlyOnline}
+            onChange={handleOnlyOnlineToggle}
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-[3px]"
+          />
+          <label htmlFor="onlineFilter" className="cursor-pointer text-sm font-medium text-gray-700 ml-2">
+            только онлайн
+          </label>
+        </div>
+      </div>
+    </div>
+  )
+})

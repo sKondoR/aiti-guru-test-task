@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --font-family: var(--font-cairo), sans-serif;
+    --second-family: var(--font-open-sans), sans-serif;
+    --third-family: var(--font-inter), sans-serif;
+    --font3: var(--font-roboto-mono), sans-serif;
+    --font4: var(--font-roboto), sans-serif;
+
+    --color-gray1: #f9f9f9;
+    --color-gray2: #f6f6f6;
+    --color-gray3: #f3f3f3;
+    --color-gray4: #ededed; /* input borders */
+    
+    --bg-main: var(--color-gray1);
+
+    --input-bg: #ffffff;
+    --input-bg-secondary: var(var(--color-gray3));
+    
+  }
+}
+
+body {
+  background-color: var(--bg-main);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+}
+
+input {
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.test1 {
+  font-family: var(--font-family);
+}
+.test2 {
+  font-family: var(--second-family);
+}
+.test3 {
+  font-family: var(--third-family);
+}
+.test4 {
+  font-family: var(--font3);
+}
+.test5 {
+  font-family: var(--font4);
+}
