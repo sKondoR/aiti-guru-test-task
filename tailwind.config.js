@@ -9,6 +9,7 @@ module.exports = {
       gray2: 'var(--color-gray2)',
       gray3: 'var(--color-gray3)',
       gray4: 'var(--color-gray4)',
+      gray5: 'var(--color-gray5)',
       white: '#ffffff',
     }
   },

@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite'
 import { useQuery } from '@tanstack/react-query'
 import { TableStore } from '@/lib/store/productsStore'
 import { useState } from 'react'
+import { productsConfig } from './config'
+import { Product, ProductColumn } from '@/types'
 
 // Data fetching function
 const fetchTableData = async (params: { page: number; limit: number; search: string }) => {
@@ -32,6 +34,8 @@ export const ProductsTable = observer(() => {
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
 
+  const { products } = data
+
   return (
     <div>
       {/* Search Input - updates MobX store */}
@@ -43,30 +47,28 @@ export const ProductsTable = observer(() => {
         className="mb-4 p-2 border rounded"
       />
 
-      {/* Table */}
-      <table className="min-w-full border">
+      <table className="min-w-full">
         <thead>
-          <tr>
-            <th>Select</th>
-            <th>ID</th>
-            <th>Name</th>
-            {/* Other columns */}
+          <tr className="border-b-2 border-gray5">
+            <th key="checkbox" className="py-3 px-4">x</th>
+            {productsConfig.map(({ name, id }: ProductColumn) => (
+              <th key={id} className="py-3 px-4">
+                {name}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {/* {data?.items.map((item: any) => (
-            <tr key={item.id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={store.selectedRows.includes(item.id)}
-                  onChange={() => store.toggleRowSelection(item.id)}
-                />
-              </td>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
+          {products.map((item: Product) => (
+            <tr key={item.id} className="border-b-2 border-gray5">
+              <td key="checkbox" className="py-3 px-4">x</td>
+              {productsConfig.map(({ prop, id }: ProductColumn) => (
+                <td key={`${item.id}-${id}`} className="py-3 px-4">
+                  {item[prop as keyof Product]}
+                </td>
+              ))}
             </tr>
-          ))} */}
+          ))}
         </tbody>
       </table>
 

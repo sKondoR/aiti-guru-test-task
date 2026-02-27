@@ -15,6 +15,7 @@
     --color-gray2: #f6f6f6;
     --color-gray3: #f3f3f3;
     --color-gray4: #ededed; /* input borders */
+    --color-gray5: #e2e2e2; /* table borders */
     
     --bg-main: var(--color-gray1);
 
@@ -38,6 +39,10 @@ input {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
+}
+
+table {
+  text-align: left;
 }
 
 .test1 {

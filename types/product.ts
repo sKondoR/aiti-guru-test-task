@@ -1,6 +1,8 @@
 export interface Product {
   id: number
   title: string
+  category: string
+  thumbnail: string
   brand: string
   sku: string
   rating: number
@@ -13,4 +15,10 @@ export interface ProductsResponse {
   total: number
   skip: number
   limit: number
+}
+
+export interface ProductColumn {
+  id: string;
+  name: string;
+  prop: keyof Product;  
 }
