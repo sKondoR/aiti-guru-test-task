@@ -14,12 +14,11 @@ import { rootStore } from '@/lib/store/rootStore'
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;
 
-  const products: Product[] = store.products
+  const products: Product[] = store.isLoading ? getEmptyProducts(store.limit) : store.products;
   const total = store.total
 
   return (
     <div>
-      {/* Search Input - updates MobX store */}
       <input
         type="text"
         placeholder="Search..."
@@ -79,3 +78,7 @@ export const ProductsTable = observer(() => {
     </div>
   )
 })
+
+function getEmptyProducts(limit: number): Product[]  {
+  return Array(limit).fill({})
+}
