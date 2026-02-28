@@ -10,28 +10,14 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { rootStore } from '@/lib/store/rootStore'
 import { getEmptyProducts } from '../products.utils'
 import { TableColumn } from '@/types/productConfig'
-import dynamic from 'next/dynamic'
-
-const HeaderCell = dynamic(
-  () => import('./HeaderCell'),
-  { ssr: false }
-)
+import HeaderCell from './HeaderCell'
 
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;
 
   const products: Product[] = store.isLoading ? getEmptyProducts(store.limit) : store.products;
-  const { total, selectedRows } = store
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={store.searchQuery}
-        onChange={(e) => store.setSearchQuery(e.target.value)}
-        className="mb-4 p-2 border rounded"
-      />
-
+    <>
       <div className="relative">
         <table className="min-w-full">
           <thead>
@@ -48,7 +34,9 @@ export const ProductsTable = observer(() => {
             {products?.map((product: Product, rowIndex) => (
               <tr
                 key={product.id ?? `${rowIndex}-empty`}
-                className={`border-b-2 border-gray ${selectedRows.includes(product.id) ? 'border-l-2 border-l-[#3C538E]' : ''}`}
+                className={`border-b-2 border-t-transparent border-r-transparent border-b-gray border-l-4 
+                  ${store.selectedRows.includes(product.id) ? 'border-l-[#3C538E]' : 'border-l-transparent'}
+                `}
               >
                 {productsConfig.map(({ prop, id }: TableColumn) => (
                   <Cell
@@ -80,8 +68,8 @@ export const ProductsTable = observer(() => {
           </div>
         )}
       </div>
-      <Pagination total={total} store={store} />
-    </div>
+      <Pagination total={store.total} store={store} />
+    </>
   )
 })
 

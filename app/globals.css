@@ -70,3 +70,7 @@ svg[class*="fa-"] {
   width: 1em;
   height: 1em;
 }
+
+input[type=checbox]:checked::after {
+  display: none;
+}

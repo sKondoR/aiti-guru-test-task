@@ -25,14 +25,14 @@ export class ProductsStore {
     this.queryClient = queryClient
     makeAutoObservable(this)
 
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('sortState');
-      if (saved) {
-        const { sortBy, order } = JSON.parse(saved);
-        this.sortBy = sortBy || '';
-        this.order = order || 'asc';
-      }
-    }
+    // if (typeof window !== 'undefined') {
+    //   const saved = localStorage.getItem('sortState');
+    //   if (saved) {
+    //     const { sortBy, order } = JSON.parse(saved);
+    //     this.sortBy = sortBy || '';
+    //     this.order = order || 'asc';
+    //   }
+    // }
     
     this.productsQueryObserver = new QueryObserver<ProductsResponse, Error>(this.queryClient, {
       queryKey: ['products'],
@@ -129,9 +129,9 @@ export class ProductsStore {
       this.sortBy = column
       this.order = 'asc'
     }
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('sortState', JSON.stringify({ sortBy: this.sortBy, order: this.order }));
-    }
+    // if (typeof window !== 'undefined') {
+    //   localStorage.setItem('sortState', JSON.stringify({ sortBy: this.sortBy, order: this.order }));
+    // }
     this.updateQuery()
   }
 }

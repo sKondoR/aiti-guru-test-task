@@ -14,15 +14,14 @@ interface HeaderCellProps {
   className?: string
 }
 
-const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3 px-[9px] first:pl-[18px] last:pl-[18px]"}) => {
+const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3 px-[9px] text-gray8 font-bold first:pl-[18px] last:pl-[18px]"}) => {
 
   const { productsStore: store } = rootStore
   const { prop, name, width } = col
 
   if (prop !== CHECKBOX_COL && prop !== ACTIONS_COL) {
-    const { sortBy, order } = store
-    const isSorted = sortBy === prop
-    const isAsc = order === 'asc'
+    const isSorted = store.sortBy === prop
+    const isAsc = store.order === 'asc'
     const handleSortClick = () => {
         store.setSortBy(prop)
     }
@@ -46,7 +45,7 @@ const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3
 
   return (
     <th
-      className={className}
+      className={`${className}`}
       style={{ width: width ?? `${width}px` }}
     >
       {name}

@@ -7,13 +7,13 @@ import { rootStore } from '@/lib/store/rootStore'
 
 export default observer(
 function SearchForm() {
-  const { productsStore } = rootStore
+  const { productsStore: store } = rootStore
   const [inputValue, setInputValue] = useState('')
   const debouncedSearchQuery = useDebounce(inputValue)
 
   useEffect(() => {
-    productsStore.setSearchQuery(debouncedSearchQuery)
-  }, [debouncedSearchQuery, productsStore])
+    store.setSearchQuery(debouncedSearchQuery)
+  }, [debouncedSearchQuery, store])
 
   return (
     <div className="w-[1000px]">

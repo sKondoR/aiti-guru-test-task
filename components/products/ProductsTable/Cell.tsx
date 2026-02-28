@@ -2,23 +2,10 @@
 
 import { Product } from '@/types'
 import React from 'react';
-import { CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants'
-import dynamic from 'next/dynamic'
-
-const ProductTemplate = dynamic(
-  () => import('../templates/ProductTemplate'),
-  { ssr: false }
-)
-
-const RatingTemplate = dynamic(
-  () => import('../templates/RatingTemplate'),
-  { ssr: false }
-)
-
-const CheckboxTemplate = dynamic(
-  () => import('../templates/CheckboxTemplate'),
-  { ssr: false }
-)
+import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants'
+import ProductTemplate from '../templates/ProductTemplate';
+import RatingTemplate from '../templates/RatingTemplate';
+import CheckboxTemplate from '../templates/CheckboxTemplate';
 
 interface CellProps {
   item: Product
@@ -26,7 +13,7 @@ interface CellProps {
   className?: string
 }
 
-const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] first:pl-[18px] last:pl-[18px] align-middle" }) => {
+const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] first:pl-[14px] last:pl-[18px] align-middle" }) => {
   if (prop === TITLE_COL) {
     return (
       <td className={className}>
@@ -51,8 +38,9 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
     );
   }
 
+  const boldClass = [BRAND_COL].includes(prop) ? 'font-bold' : ''
   return (
-    <td className={className}>
+    <td className={`${className} ${boldClass}`}>
       {item[prop as keyof Product]}
     </td>
   );
