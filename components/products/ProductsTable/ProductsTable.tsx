@@ -6,6 +6,8 @@ import { TableStore } from '@/lib/store/productsStore'
 import { useState } from 'react'
 import { productsConfig } from './config'
 import { Product, ProductColumn } from '@/types'
+import Cell from './Cell'
+import { Pagination } from './Pagination'
 
 // Data fetching function
 const fetchTableData = async (params: { page: number; limit: number; search: string }) => {
@@ -34,7 +36,7 @@ export const ProductsTable = observer(() => {
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
 
-  const { products } = data
+  const { products, total } = data
 
   return (
     <div>
@@ -63,33 +65,19 @@ export const ProductsTable = observer(() => {
             <tr key={item.id} className="border-b-2 border-gray5">
               <td key="checkbox" className="py-3 px-4">x</td>
               {productsConfig.map(({ prop, id }: ProductColumn) => (
-                <td key={`${item.id}-${id}`} className="py-3 px-4">
-                  {item[prop as keyof Product]}
-                </td>
+                <Cell 
+                  key={`${item.id}-${id}`}
+                  item={item}
+                  prop={prop}
+                  id={`${item.id}-${id}`}
+                />
               ))}
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Pagination */}
-      <div className="mt-4 flex gap-2">
-        <button
-          onClick={() => store.setPage(store.page - 1)}
-          disabled={store.page === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span>Page {store.page}</span>
-        <button
-          onClick={() => store.setPage(store.page + 1)}
-          disabled={!data?.hasNextPage}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination total={total} />
     </div>
   )
 })

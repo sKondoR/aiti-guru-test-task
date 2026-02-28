@@ -2,27 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-family: var(--font-cairo), sans-serif;
+  --second-family: var(--font-open-sans), sans-serif;
+  --third-family: var(--font-inter), sans-serif;
+  --font3: var(--font-roboto-mono), sans-serif;
+  --font4: var(--font-roboto), sans-serif;
 
-@layer base {
-  :root {
-    --font-family: var(--font-cairo), sans-serif;
-    --second-family: var(--font-open-sans), sans-serif;
-    --third-family: var(--font-inter), sans-serif;
-    --font3: var(--font-roboto-mono), sans-serif;
-    --font4: var(--font-roboto), sans-serif;
 
-    --color-gray1: #f9f9f9;
-    --color-gray2: #f6f6f6;
-    --color-gray3: #f3f3f3;
-    --color-gray4: #ededed; /* input borders */
-    --color-gray5: #e2e2e2; /* table borders */
-    
-    --bg-main: var(--color-gray1);
+  --color-gray3: #f3f3f3; /* search bg */
+  --color-gray4: #ededed; /* input borders */
+  --color-gray5: #e2e2e2; /* table borders */
+  --color-gray6: #c4c4c4; /* thumbnail bg */
+  --color-gray7: #ececeb; /* thumbnail border */
+  --color-gray8: #b2b3b9; /* light gray text */
 
-    --input-bg: #ffffff;
-    --input-bg-secondary: var(var(--color-gray3));
-    
-  }
+  --color-primary: #222222; /* dark gray text */
+  --bg-main: #f9f9f9;
+  --bg-login: #f6f6f6;
+
+  --input-bg: #ffffff;
+  --input-bg-secondary: var(var(--color-gray3));
+  
+  .bg-gray3 { background-color: var(--color-gray3) } /* search bg */
+  .border-gray4 { border-color: var(--color-gray4) }; /* input borders */
+  .border-b-gray5 { border-bottom-color: var(--color-gray5) }; /* table borders */
+  .bg-gray6 { background-color: var(--color-gray6) } /* thumbnail bg */
+  .border-gray7 { border-color: var(--color-gray7) } /* thumbnail border */
+  .text-gray8 { color: var(--color-gray8) } /* light gray text */
+  .text-primary { color: var(--color-primary) } /* dark gray text */
 }
 
 body {
@@ -43,20 +51,4 @@ h1, h2, h3, h4, h5, h6 {
 
 table {
   text-align: left;
-}
-
-.test1 {
-  font-family: var(--font-family);
-}
-.test2 {
-  font-family: var(--second-family);
-}
-.test3 {
-  font-family: var(--third-family);
-}
-.test4 {
-  font-family: var(--font3);
-}
-.test5 {
-  font-family: var(--font4);
 }

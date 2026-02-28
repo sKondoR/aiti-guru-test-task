@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 export class TableStore {
   page = 1;
-  pageSize = 20;
+  limit = 20;
   searchQuery = '';
   selectedRows: string[] = [];
 
@@ -30,7 +30,7 @@ export class TableStore {
   get queryParams() {
     return {
       page: this.page,
-      limit: this.pageSize,
+      limit: this.limit,
       search: this.searchQuery,
     };
   }
