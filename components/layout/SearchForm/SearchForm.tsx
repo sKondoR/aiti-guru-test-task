@@ -1,21 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDebounce } from '@/lib/hooks/useDebounce'
 import { observer } from 'mobx-react-lite'
 import { rootStore } from '@/lib/store/rootStore'
 
 export default observer(
 function SearchForm() {
-  const [inputValue, setInputValue] = useState('')
   const { productsStore } = rootStore
+  const [inputValue, setInputValue] = useState('')
+  const debouncedSearchQuery = useDebounce(inputValue)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      productsStore.setSearchQuery(inputValue)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [inputValue, productsStore])
+    productsStore.setSearchQuery(debouncedSearchQuery)
+  }, [debouncedSearchQuery, productsStore])
 
   return (
     <div className="w-[1000px]">

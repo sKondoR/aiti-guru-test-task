@@ -1,5 +1,5 @@
-import { Product } from '@/types';
-import React from 'react';
+import { Product } from '@/types'
+import React from 'react'
 
 interface CheckboxTemplateProps {
   item: Product;
