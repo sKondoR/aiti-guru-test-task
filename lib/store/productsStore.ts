@@ -26,13 +26,19 @@ export class ProductsStore {
     this.queryClient = queryClient
     makeAutoObservable(this)
 
+    const saved = localStorage.getItem('sortState');
+    if (saved) {
+      const { sortBy, order } = JSON.parse(saved);
+      this.sortBy = sortBy || '';
+      this.order = order || 'asc';
+    }
+    
     this.productsQueryObserver = new QueryObserver<ProductsResponse, Error>(this.queryClient, {
       queryKey: ['products'],
       queryFn: async (): Promise<ProductsResponse> => {
         const searchParams = new URLSearchParams({
           skip: ((this.page - 1) * this.limit).toString(),
           limit: this.limit.toString(),
-          search: this.searchQuery,
         })
         
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
@@ -65,20 +71,20 @@ export class ProductsStore {
     await this.queryClient.refetchQueries({ queryKey: ['products'] })
   }
 
-  // Method to update query parameters
   private updateQuery() {
-    console.log('updateQuery');
+    console.log('updateQuery', this.searchQuery);
     this.productsQueryObserver.setOptions({
-      queryKey: ['products', this.page, this.sortBy, this.order],
-      queryFn: async (): Promise<ProductsResponse> => {
+      queryKey: ['products', this.page, this.sortBy, this.order, this.searchQuery],
+      queryFn: async (): Promise<ProductsResponse> => {  
         const searchParams = new URLSearchParams({
           skip: ((this.page - 1) * this.limit).toString(),
           limit: this.limit.toString(),
-          search: this.searchQuery,
+          q: this.searchQuery,
           sortBy: this.sortBy,
           order: this.order,
         })
-        
+
+        console.log('queryFn', searchParams, this.searchQuery);
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
         const response = await fetch(`${baseUrl}/api/products?${searchParams}`)
         if (!response.ok) throw new Error('Failed to fetch products')
@@ -118,15 +124,13 @@ export class ProductsStore {
   }
 
   setSortBy(column: string) {
-    console.log('setSortBy ', column);
     if (this.sortBy === column) {
-      // Toggle order if same column is clicked
       this.order = this.order === 'asc' ? 'desc' : 'asc'
     } else {
-      // Set new column and default to asc
       this.sortBy = column
       this.order = 'asc'
     }
+    localStorage.setItem('sortState', JSON.stringify({ sortBy: this.sortBy, order: this.order }));
     this.updateQuery()
   }
 }

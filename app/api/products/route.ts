@@ -7,7 +7,12 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = new URLSearchParams(request.nextUrl.searchParams)
     searchParams.set('select', 'title,brand,sku,rating,price,stock,category,thumbnail')
-    const response = await fetch(`${API_URL}/products?${searchParams}`)
+    let url = `${API_URL}/products`
+    if (searchParams.get('q')) {
+      url += '/search';
+    }
+    console.log('searchParams ', searchParams);
+    const response = await fetch(`${url}?${searchParams}`)
     const data: ProductsResponse = await response.json()
     return NextResponse.json(data)
   } catch (error) {
