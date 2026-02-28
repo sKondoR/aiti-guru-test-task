@@ -1,9 +1,11 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ProductsStore } from './productsStore'
+import { AuthorizationStore } from './authorizationStore'
 
 export class RootStore {
   queryClient: QueryClient;
   productsStore: ProductsStore;
+  authorizationStore: AuthorizationStore;
 
   constructor() {
     this.queryClient = new QueryClient({
@@ -16,10 +18,12 @@ export class RootStore {
     });
 
     this.productsStore = new ProductsStore(this.queryClient);
+    this.authorizationStore = new AuthorizationStore();
   }
 
   destroy() {
     this.productsStore.destroy();
+    this.authorizationStore.logout();
   }
 }
 
