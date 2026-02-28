@@ -1,3 +1,5 @@
+'use client'
+
 import { observer } from 'mobx-react-lite'
 import { productsConfig } from '../products.config'
 import { Product } from '@/types'
@@ -29,19 +31,18 @@ export const ProductsTable = observer(() => {
       <div className="relative">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b-2 border-gray5">
+            <tr className="border-b-2 border-gray5s">
               {productsConfig.map((col: TableColumn) => (
                 <HeaderCell
                   key={`${col.id}`}
-                  prop={col.prop}
-                  name={col.name}
+                  col={col}
                 />
               ))}
             </tr>
           </thead>
           <tbody>
             {products?.map((product: Product, rowIndex) => (
-              <tr key={product.id ?? `${rowIndex}-empty`} className="border-b-2 border-gray5">
+              <tr key={product.id ?? `${rowIndex}-empty`} className="border-b-2 border-gray">
                 {productsConfig.map(({ prop, id }: TableColumn) => (
                   <Cell
                     key={`${product.id || rowIndex}-${id}`}

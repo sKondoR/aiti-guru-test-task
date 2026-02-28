@@ -1,8 +1,11 @@
+'use client'
+
 import { Product } from '@/types';
 import React from 'react';
 import ProductTemplate from '../templates/ProductTemplate';
-import { RATING_COL, TITLE_COL } from '../products.constants';
+import { CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants';
 import RatingTemplate from '../templates/RatingTemplate';
+import CheckboxTemplate from '../templates/CheckboxTemplate';
 
 interface CellProps {
   item: Product
@@ -10,7 +13,7 @@ interface CellProps {
   className?: string
 }
 
-const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-4" }) => {
+const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] first:pl-[18px] last:pl-[18px] align-middle" }) => {
   if (prop === TITLE_COL) {
     return (
       <td className={className}>
@@ -20,16 +23,17 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-4" }) => {
   }
   if (prop === RATING_COL) {
     return (
-      <td className={className + (item.rating < 3 ? ' text-red-500' : '')}>
-        {item[prop]}
+      <td className={className}>
+        <RatingTemplate item={item} />
       </td>
+    
     );
   }
 
-  if (prop === 'checkbox') {
+  if (prop === CHECKBOX_COL) {
     return (
       <td className={className}>
-        <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+        <CheckboxTemplate item={item} />
       </td>
     );
   }

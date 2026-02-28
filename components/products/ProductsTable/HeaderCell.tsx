@@ -1,37 +1,37 @@
+'use client'
+
 import { Product } from '@/types';
 import React from 'react';
 import { ACTIONS_COL, CHECKBOX_COL } from '../products.constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { SortOrder } from '@/lib/store/productsStore';
 import { rootStore } from '@/lib/store/rootStore';
 import { observer } from 'mobx-react';
+import { TableColumn } from '@/types/productConfig';
 
 interface HeaderCellProps {
-  name?: string
-  prop: string
+  col: TableColumn
   className?: string
 }
 
-const HeaderCell: React.FC<HeaderCellProps> = observer(({ name, prop, className = "py-3 px-4"}) => {
+const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3 px-[9px] first:pl-[18px] last:pl-[18px]"}) => {
 
-  const { productsStore: store } = rootStore;
-
+  const { productsStore: store } = rootStore
+  const { prop, name, width } = col
 
   if (prop !== CHECKBOX_COL && prop !== ACTIONS_COL) {
     const { sortBy, order } = store
     const isSorted = sortBy === prop
     const isAsc = order === 'asc'
     const handleSortClick = () => {
-      if (prop !== CHECKBOX_COL && prop !== ACTIONS_COL) {
         store.setSortBy(prop)
-      }
     }
+
     return (
       <th
-        className={className}
+        className={`${className} cursor-pointer`}
         onClick={handleSortClick}
-        style={{ cursor: 'pointer' }}
+        style={{ width: width ?? `${width}px` }}
       >
         {name as keyof Product}
         {isSorted && (
@@ -45,7 +45,10 @@ const HeaderCell: React.FC<HeaderCellProps> = observer(({ name, prop, className 
   }
 
   return (
-    <th className={className}>
+    <th
+      className={className}
+      style={{ width: width ?? `${width}px` }}
+    >
       {name}
     </th>
   );

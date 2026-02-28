@@ -4,11 +4,14 @@ import React from 'react';
 interface RatingTemplateProps {
   item: Product;
 }
-
+const WARNING_RATING = 3;
 const RatingTemplate: React.FC<RatingTemplateProps> = ({ item }) => {
+  if (!item.rating) return ''
   return (
-    <span className={item.rating < 3 ? 'color-red' : ''}>
-    </span>
+    <div>
+      <span className={item.rating < WARNING_RATING ? 'text-red-500' : ''}>{item.rating}</span>
+      /5
+    </div>    
   );
 };
 
