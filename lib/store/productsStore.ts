@@ -65,6 +65,7 @@ export class ProductsStore {
         this.total = result?.data?.total || 0
         this.isLoading = result.isLoading
         this.error = result.error?.message || null
+        this.isAllSelected = !!this.selectedRows.length && isArraysEqualUnordered(this.selectedRows, this.products.map(item => item.id))
       })
     })
   }
@@ -76,7 +77,7 @@ export class ProductsStore {
   }
 
   private updateQuery() {
-    console.log('updateQuery', this.searchQuery);
+    this.isAllSelected = false
     this.productsQueryObserver.setOptions({
       queryKey: ['products', this.page, this.sortBy, this.order, this.searchQuery],
       queryFn: async (): Promise<ProductsResponse> => {  
@@ -118,11 +119,13 @@ export class ProductsStore {
   }
 
   toggleSelectAll() {
+    const ids = this.products.map(item => item.id)
     if (!this.isAllSelected) {
-      this.selectedRows = this.products.map(item => item.id)
+      this.selectedRows = [...this.selectedRows, ...ids]
       this.isAllSelected = true
     } else {
-      this.selectedRows = []
+      const ids = this.products.map(item => item.id)
+      this.selectedRows = this.selectedRows.filter(rowId => !ids.includes(rowId))
       this.isAllSelected = false
     }
   }
