@@ -1,7 +1,7 @@
 'use client'
 
 import { observer } from 'mobx-react-lite'
-import { mobxStore } from '@/lib/store/mobxStore'
+import { mobxStore } from '@/lib/store/rootStore'
 
 export default observer(
 function HeaderFormValues() {

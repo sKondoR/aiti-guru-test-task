@@ -1,9 +1,9 @@
 'use client'
 
 import { observer } from 'mobx-react-lite'
-import { TableStore } from '@/lib/store/productsStore'
+import { ProductsStore } from '@/lib/store/productsStore'
 
-export const Pagination = observer(({ total, store }: { total: number; store: TableStore }) => {
+export const Pagination = observer(({ total, store }: { total: number; store: ProductsStore }) => {
   const firstItem = store.page * store.limit - store.limit + 1
   const lastItem = Math.min(store.page * store.limit, total)
   const pagesCount = Math.ceil(total / store.limit)

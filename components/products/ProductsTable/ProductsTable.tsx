@@ -1,47 +1,28 @@
 'use client'
 
-import { observer } from 'mobx-react-lite'
-import { useQuery } from '@tanstack/react-query'
-import { TableStore } from '@/lib/store/productsStore'
-import { useState } from 'react'
+import { observer, useLocalStore } from 'mobx-react-lite'
+import { ProductsStore } from '@/lib/store/productsStore'
+import { useState, useEffect } from 'react'
 import { productsConfig } from './config'
 import { Product, ProductColumn } from '@/types'
 import Cell from './Cell'
 import { Pagination } from './Pagination'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-
-// Data fetching function
-const fetchTableData = async (params: { page: number; limit: number; search: string }) => {
-  console.log('here!', ((params.page - 1) * params.limit).toString());
-  const searchParams = new URLSearchParams({
-    skip: ((params.page - 1) * params.limit).toString(),
-    limit: params.limit.toString(),
-    // ...(params.search && { search: params.search }),
-  });
-  
-  const response = await fetch(`/api/products?${searchParams}`)
-  if (!response.ok) throw new Error('Failed to fetch');
-  return response.json();
-};
+import { rootStore } from '@/lib/store/rootStore'
 
 export const ProductsTable = observer(() => {
-  // Initialize store (only once)
-  const [store] = useState(() => new TableStore())
+  const { productsStore: store } = rootStore;
 
-  // Use React Query for data fetching
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['tableData', store.page, store.searchQuery],
-    queryFn: () => fetchTableData({
-      page: store.page,
-      limit: store.limit,
-      search: store.searchQuery
-    }),
-  })
+  // Load data when page or search query changes
+  // useEffect(() => {
+  //   store.fetchTableData();
+  // }, [store.page, store.searchQuery])
 
-  const products: Product[] = data?.products || []
-  const total = data?.total || 0
-  console.log('>', products)
+  const products: Product[] = store.products
+  const total = store.total
+
+  // console.log('>>> ', products && [...products])
 
   return (
     <div>
@@ -67,11 +48,11 @@ export const ProductsTable = observer(() => {
             </tr>
           </thead>
           <tbody>
-            {products.map((item: Product) => (
+            {products?.map((item: Product) => (
               <tr key={item.id} className="border-b-2 border-gray5">
                 <td key="checkbox" className="py-3 px-4">x</td>
                 {productsConfig.map(({ prop, id }: ProductColumn) => (
-                  <Cell 
+                  <Cell
                     key={`${item.id}-${id}`}
                     item={item}
                     prop={prop}
@@ -82,7 +63,7 @@ export const ProductsTable = observer(() => {
             ))}
           </tbody>
         </table>
-        {isLoading && (
+        {store.isLoading && (
           <div className="absolute inset-0 bg-gray-300/50 flex items-center justify-center">
             <div className="flex items-center justify-center space-x-2 text-gray-500">
               <FontAwesomeIcon icon={faSpinner} spin />
@@ -92,11 +73,11 @@ export const ProductsTable = observer(() => {
         )}
         
         {/* Оверлей для ошибки */}
-        {error?.message && (
+        {store.error && (
           <div className="absolute inset-0 bg-red-300/50 bg-opacommand-80 flex items-center justify-center">
             <div className="text-white text-center">
               <h3 className="text-lg font-semibold mb-2">Ошибка загрузки</h3>
-              <p className="text-white">{error?.message}</p>
+              <p className="text-white">{store.error}</p>
             </div>
           </div>
         )}
