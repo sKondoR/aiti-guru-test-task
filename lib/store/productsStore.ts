@@ -26,14 +26,15 @@ export class ProductsStore {
     this.queryClient = queryClient
     makeAutoObservable(this)
 
-    const searchParams = new URLSearchParams({
-      skip: ((this.page - 1) * this.limit).toString(),
-      limit: this.limit.toString(),
-    })
-
     this.productsQueryObserver = new QueryObserver<ProductsResponse, Error>(this.queryClient, {
       queryKey: ['products'],
       queryFn: async (): Promise<ProductsResponse> => {
+        const searchParams = new URLSearchParams({
+          skip: ((this.page - 1) * this.limit).toString(),
+          limit: this.limit.toString(),
+          search: this.searchQuery,
+        })
+        
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
         const response = await fetch(`${baseUrl}/api/products?${searchParams}`)
         if (!response.ok) throw new Error('Failed to fetch products')
@@ -49,7 +50,7 @@ export class ProductsStore {
     // Subscribe to query updates
     this.productsQueryObserver.subscribe((result) => {
       runInAction(() => {
-        console.log('runInAction: ', result)
+        console.log('runInAction: ', result.data)
         this.products = result?.data?.products || []
         this.total = result?.data?.total || 0
         this.isLoading = result.isLoading
@@ -60,11 +61,33 @@ export class ProductsStore {
 
   // Method to manually refetch
   async refetchProducts() {
+    this.updateQuery()
     await this.queryClient.refetchQueries({ queryKey: ['products'] })
+  }
+
+  // Method to update query parameters
+  private updateQuery() {
+    console.log('updateQuery');
+    this.productsQueryObserver.setOptions({
+      queryKey: ['products', this.page],
+      queryFn: async (): Promise<ProductsResponse> => {
+        const searchParams = new URLSearchParams({
+          skip: ((this.page - 1) * this.limit).toString(),
+          limit: this.limit.toString(),
+          search: this.searchQuery,
+        })
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+        const response = await fetch(`${baseUrl}/api/products?${searchParams}`)
+        if (!response.ok) throw new Error('Failed to fetch products')
+        return response.json()
+      },
+    })
   }
 
   // Method to invalidate cache
   invalidateProducts() {
+    this.updateQuery()
     this.queryClient.invalidateQueries({ queryKey: ['products'] })
   }
 
@@ -75,11 +98,13 @@ export class ProductsStore {
 
   setPage(page: number) {
     this.page = page
+    this.updateQuery()
   }
 
   setSearchQuery(query: string) {
     this.searchQuery = query
     this.page = 1
+    this.updateQuery()
   }
 
   toggleRowSelection(id: string) {

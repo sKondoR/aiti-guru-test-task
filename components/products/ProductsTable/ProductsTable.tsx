@@ -14,15 +14,8 @@ import { rootStore } from '@/lib/store/rootStore'
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;
 
-  // Load data when page or search query changes
-  // useEffect(() => {
-  //   store.fetchTableData();
-  // }, [store.page, store.searchQuery])
-
   const products: Product[] = store.products
   const total = store.total
-
-  // console.log('>>> ', products && [...products])
 
   return (
     <div>
