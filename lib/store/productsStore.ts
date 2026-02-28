@@ -65,7 +65,7 @@ export class ProductsStore {
         this.total = result?.data?.total || 0
         this.isLoading = result.isLoading
         this.error = result.error?.message || null
-        this.isAllSelected = !!this.selectedRows.length && isArraysEqualUnordered(this.selectedRows, this.products.map(item => item.id))
+        this.isAllSelected = !!this.selectedRows.length && !!this.products.length && isArraysEqualUnordered(this.selectedRows, this.products.map(item => item.id))
       })
     })
   }

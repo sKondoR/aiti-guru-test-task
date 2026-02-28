@@ -42,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className={`${cairo.variable} ${openSans.variable} ${inter.variable} ${robotoMono.variable} ${roboto.variable}`}>
-      <body className="py-5">
+      <body className="min-h-screen">
         <QueryClientProviderWrapper>
             {children}
         </QueryClientProviderWrapper>

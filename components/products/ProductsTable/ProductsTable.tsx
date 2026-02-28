@@ -50,8 +50,8 @@ export const ProductsTable = observer(() => {
           </tbody>
         </table>
         {store.isLoading && (
-          <div className="absolute inset-0 bg-gray-300/50 flex items-center justify-center">
-            <div className="flex items-center justify-center space-x-2 text-gray-500">
+          <div className="absolute inset-0 bg-gray-300/30 flex items-center justify-center">
+            <div className="flex items-center justify-center space-x-2 text-gray-500 text-xl">
               <FontAwesomeIcon icon={faSpinner} spin />
               <span className="text-lg font-medium">Загрузка результатов...</span>
             </div>
@@ -60,9 +60,9 @@ export const ProductsTable = observer(() => {
         
         {/* Оверлей для ошибки */}
         {store.error && (
-          <div className="absolute inset-0 bg-red-300/50 bg-opacommand-80 flex items-center justify-center">
+          <div className="absolute inset-0 bg-red-300/30 bg-opacommand-80 flex items-center justify-center">
             <div className="text-white text-center">
-              <h3 className="text-lg font-semibold mb-2">Ошибка загрузки</h3>
+              <h3 className="text-xl font-semibold mb-2">Ошибка загрузки</h3>
               <p className="text-white">{store.error}</p>
             </div>
           </div>
