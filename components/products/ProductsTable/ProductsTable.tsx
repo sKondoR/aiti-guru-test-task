@@ -35,9 +35,6 @@ export const ProductsTable = observer(() => {
                   key={`${col.id}`}
                   prop={col.prop}
                   name={col.name}
-                  sortBy={store.sortBy}
-                  order={store.order}
-                  onSort={store.setSortBy}
                 />
               ))}
             </tr>
