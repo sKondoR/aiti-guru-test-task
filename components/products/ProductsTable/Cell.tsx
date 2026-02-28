@@ -26,13 +26,13 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-4" }) => {
     );
   }
 
-//   if (prop === 'checkbox') {
-//     return (
-//       <td key={id} className={className}>
-//         <Template2 checked={item[prop as keyof Product]} />
-//       </td>
-//     );
-//   }
+  if (prop === 'checkbox') {
+    return (
+      <td className={className}>
+        <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+      </td>
+    );
+  }
 
   return (
     <td className={className}>

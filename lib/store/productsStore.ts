@@ -69,12 +69,14 @@ export class ProductsStore {
   private updateQuery() {
     console.log('updateQuery');
     this.productsQueryObserver.setOptions({
-      queryKey: ['products', this.page],
+      queryKey: ['products', this.page, this.sortBy, this.order],
       queryFn: async (): Promise<ProductsResponse> => {
         const searchParams = new URLSearchParams({
           skip: ((this.page - 1) * this.limit).toString(),
           limit: this.limit.toString(),
           search: this.searchQuery,
+          sortBy: this.sortBy,
+          order: this.order,
         })
         
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
@@ -113,5 +115,18 @@ export class ProductsStore {
     } else {
       this.selectedRows.push(id)
     }
+  }
+
+  setSortBy(column: string) {
+    console.log('setSortBy ', column);
+    if (this.sortBy === column) {
+      // Toggle order if same column is clicked
+      this.order = this.order === 'asc' ? 'desc' : 'asc'
+    } else {
+      // Set new column and default to asc
+      this.sortBy = column
+      this.order = 'asc'
+    }
+    this.updateQuery()
   }
 }
