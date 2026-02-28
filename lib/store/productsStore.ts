@@ -10,10 +10,9 @@ export class ProductsStore {
   page = 1
   limit = 5
   searchQuery = ''
-  selectedRows: string[] = []
+  selectedRows: number[] = []
   sortBy = ''
   order = 'asc' as SortOrder
-  
 
   products: Product[] = []
   total = 0
@@ -26,11 +25,13 @@ export class ProductsStore {
     this.queryClient = queryClient
     makeAutoObservable(this)
 
-    const saved = localStorage.getItem('sortState');
-    if (saved) {
-      const { sortBy, order } = JSON.parse(saved);
-      this.sortBy = sortBy || '';
-      this.order = order || 'asc';
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('sortState');
+      if (saved) {
+        const { sortBy, order } = JSON.parse(saved);
+        this.sortBy = sortBy || '';
+        this.order = order || 'asc';
+      }
     }
     
     this.productsQueryObserver = new QueryObserver<ProductsResponse, Error>(this.queryClient, {
@@ -93,13 +94,11 @@ export class ProductsStore {
     })
   }
 
-  // Method to invalidate cache
   invalidateProducts() {
     this.updateQuery()
     this.queryClient.invalidateQueries({ queryKey: ['products'] })
   }
 
-  // Cleanup
   destroy() {
     this.productsQueryObserver.destroy()
   }
@@ -115,7 +114,7 @@ export class ProductsStore {
     this.updateQuery()
   }
 
-  toggleRowSelection(id: string) {
+  toggleRowSelection(id: number) {
     if (this.selectedRows.includes(id)) {
       this.selectedRows = this.selectedRows.filter(rowId => rowId !== id)
     } else {
@@ -130,7 +129,9 @@ export class ProductsStore {
       this.sortBy = column
       this.order = 'asc'
     }
-    localStorage.setItem('sortState', JSON.stringify({ sortBy: this.sortBy, order: this.order }));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sortState', JSON.stringify({ sortBy: this.sortBy, order: this.order }));
+    }
     this.updateQuery()
   }
 }

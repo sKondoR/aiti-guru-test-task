@@ -10,14 +10,18 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { rootStore } from '@/lib/store/rootStore'
 import { getEmptyProducts } from '../products.utils'
 import { TableColumn } from '@/types/productConfig'
-import HeaderCell from './HeaderCell'
+import dynamic from 'next/dynamic'
+
+const HeaderCell = dynamic(
+  () => import('./HeaderCell'),
+  { ssr: false }
+)
 
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;
 
   const products: Product[] = store.isLoading ? getEmptyProducts(store.limit) : store.products;
-  const total = store.total
-
+  const { total, selectedRows } = store
   return (
     <div>
       <input
@@ -42,7 +46,10 @@ export const ProductsTable = observer(() => {
           </thead>
           <tbody>
             {products?.map((product: Product, rowIndex) => (
-              <tr key={product.id ?? `${rowIndex}-empty`} className="border-b-2 border-gray">
+              <tr
+                key={product.id ?? `${rowIndex}-empty`}
+                className={`border-b-2 border-gray ${selectedRows.includes(product.id) ? 'border-l-2 border-l-[#3C538E]' : ''}`}
+              >
                 {productsConfig.map(({ prop, id }: TableColumn) => (
                   <Cell
                     key={`${product.id || rowIndex}-${id}`}

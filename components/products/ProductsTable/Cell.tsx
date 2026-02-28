@@ -1,11 +1,24 @@
 'use client'
 
-import { Product } from '@/types';
+import { Product } from '@/types'
 import React from 'react';
-import ProductTemplate from '../templates/ProductTemplate';
-import { CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants';
-import RatingTemplate from '../templates/RatingTemplate';
-import CheckboxTemplate from '../templates/CheckboxTemplate';
+import { CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants'
+import dynamic from 'next/dynamic'
+
+const ProductTemplate = dynamic(
+  () => import('../templates/ProductTemplate'),
+  { ssr: false }
+)
+
+const RatingTemplate = dynamic(
+  () => import('../templates/RatingTemplate'),
+  { ssr: false }
+)
+
+const CheckboxTemplate = dynamic(
+  () => import('../templates/CheckboxTemplate'),
+  { ssr: false }
+)
 
 interface CellProps {
   item: Product

@@ -22,7 +22,7 @@
   --bg-login: #f6f6f6;
 
   --input-bg: #ffffff;
-  --input-bg-secondary: var(var(--color-gray3));
+  --input-bg-secondary: var(--color-gray3);
   
   .bg-gray3 { background-color: var(--color-gray3) } /* search bg */
   .border-gray4 { border-color: var(--color-gray4) }; /* input borders */

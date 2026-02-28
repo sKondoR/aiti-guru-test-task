@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     if (searchParams.get('q')) {
       url += '/search';
     }
-    console.log('searchParams ', searchParams);
     const response = await fetch(`${url}?${searchParams}`)
     const data: ProductsResponse = await response.json()
     return NextResponse.json(data)

@@ -29,18 +29,11 @@ npm-debug.log*
 # env files (can opt-in for committing if needed)
 .env
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-#drizzle
-drizzle
 
-.agents
 .ai-factory
 .serena
 .ai-factory.json
-.qwen
