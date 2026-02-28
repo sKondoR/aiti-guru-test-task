@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { ProductsStore } from '@/lib/store/productsStore'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 export const Pagination = observer(({ total, store }: { total: number; store: ProductsStore }) => {
   const firstItem = store.page * store.limit - store.limit + 1
@@ -16,9 +18,9 @@ export const Pagination = observer(({ total, store }: { total: number; store: Pr
         <button
           onClick={() => store.setPage(store.page - 1)}
           disabled={store.page === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-3 py-1 disabled:opacity-50"
         >
-          Previous
+          <FontAwesomeIcon icon={faChevronLeft} className="text-blue-500 hover:text-blue-800 cursor-pointer" />
         </button>
         <div className="flex space-x-2">
           {Array.from({ length: Math.min(5, pagesCount) }, (_, i) => {
@@ -43,9 +45,9 @@ export const Pagination = observer(({ total, store }: { total: number; store: Pr
         <button
           onClick={() => store.setPage(store.page + 1)}
           disabled={false}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-3 py-1 disabled:opacity-50"
         >
-          Next
+          <FontAwesomeIcon icon={faChevronRight} className="text-blue-500 hover:text-blue-800 cursor-pointer" />
         </button>
       </div>
     </div>

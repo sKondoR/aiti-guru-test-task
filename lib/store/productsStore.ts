@@ -50,7 +50,7 @@ export class ProductsStore {
     // Subscribe to query updates
     this.productsQueryObserver.subscribe((result) => {
       runInAction(() => {
-        console.log('runInAction: ', result.data)
+        console.log('runInAction: ')
         this.products = result?.data?.products || []
         this.total = result?.data?.total || 0
         this.isLoading = result.isLoading

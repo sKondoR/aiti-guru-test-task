@@ -52,3 +52,21 @@ h1, h2, h3, h4, h5, h6 {
 table {
   text-align: left;
 }
+
+.svg-inline--fa {
+  height: 1em;
+  width: 1em;
+}
+
+.fa-icon, 
+.fa-2xs, .fa-xs, .fa-sm, 
+.fa-lg, .fa-xl, .fa-2xl {
+  display: inline-block;
+}
+
+/* Ensure icons match font size */
+svg[class*="fa-"] {
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+}
