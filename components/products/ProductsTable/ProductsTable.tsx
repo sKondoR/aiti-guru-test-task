@@ -1,15 +1,14 @@
-'use client'
-
-import { observer, useLocalStore } from 'mobx-react-lite'
-import { ProductsStore } from '@/lib/store/productsStore'
-import { useState, useEffect } from 'react'
-import { productsConfig } from './config'
-import { Product, ProductColumn } from '@/types'
+import { observer } from 'mobx-react-lite'
+import { productsConfig } from '../products.config'
+import { Product } from '@/types'
 import Cell from './Cell'
 import { Pagination } from './Pagination'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { rootStore } from '@/lib/store/rootStore'
+import { getEmptyProducts } from '../products.utils'
+import { TableColumn } from '@/types/productConfig'
+import HeaderCell from './HeaderCell'
 
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;
@@ -31,24 +30,23 @@ export const ProductsTable = observer(() => {
         <table className="min-w-full">
           <thead>
             <tr className="border-b-2 border-gray5">
-              <th key="checkbox" className="py-3 px-4">x</th>
-              {productsConfig.map(({ name, id }: ProductColumn) => (
-                <th key={id} className="py-3 px-4">
-                  {name}
-                </th>
+              {productsConfig.map((col: TableColumn) => (
+                <HeaderCell
+                  key={`${col.id}`}
+                  prop={col.prop}
+                  name={col.name}
+                />
               ))}
             </tr>
           </thead>
           <tbody>
-            {products?.map((item: Product) => (
-              <tr key={item.id} className="border-b-2 border-gray5">
-                <td key="checkbox" className="py-3 px-4">x</td>
-                {productsConfig.map(({ prop, id }: ProductColumn) => (
+            {products?.map((product: Product, rowIndex) => (
+              <tr key={product.id ?? `${rowIndex}-empty`} className="border-b-2 border-gray5">
+                {productsConfig.map(({ prop, id }: TableColumn) => (
                   <Cell
-                    key={`${item.id}-${id}`}
-                    item={item}
+                    key={`${product.id || rowIndex}-${id}`}
+                    item={product}
                     prop={prop}
-                    id={`${item.id}-${id}`}
                   />
                 ))}
               </tr>
@@ -79,6 +77,3 @@ export const ProductsTable = observer(() => {
   )
 })
 
-function getEmptyProducts(limit: number): Product[]  {
-  return Array(limit).fill({})
-}

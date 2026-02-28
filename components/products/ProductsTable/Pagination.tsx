@@ -1,5 +1,3 @@
-'use client'
-
 import { observer } from 'mobx-react-lite'
 import { ProductsStore } from '@/lib/store/productsStore'
 
