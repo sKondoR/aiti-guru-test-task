@@ -1,10 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 
+export type SortOrder = 'asc' | 'desc'
+
 export class TableStore {
   page = 1;
-  limit = 20;
+  limit = 5;
   searchQuery = '';
   selectedRows: string[] = [];
+  sortBy = '';
+  order = 'asc' as SortOrder;
 
   constructor() {
     makeAutoObservable(this);
@@ -32,6 +36,8 @@ export class TableStore {
       page: this.page,
       limit: this.limit,
       search: this.searchQuery,
+      sortBy: this.sortBy,
+      order: this.order
     };
   }
 }

@@ -1,7 +1,8 @@
 import { Product } from '@/types';
 import React from 'react';
 import ProductTemplate from './templates/ProductTemplate';
-import { TITLE_COL } from './config';
+import { RATING_COL, TITLE_COL } from './config';
+import RatingTemplate from './templates/RatingTemplate';
 
 interface CellProps {
   item: Product;
@@ -15,6 +16,13 @@ const Cell: React.FC<CellProps> = ({ item, prop, id, className = "py-3 px-4" }) 
     return (
       <td key={id} className={className}>
         <ProductTemplate item={item} />
+      </td>
+    );
+  }
+  if (prop === RATING_COL) {
+    return (
+      <td key={id} className={className + (item.rating < 3 ? ' text-red-500' : '')}>
+        {item[prop]}
       </td>
     );
   }

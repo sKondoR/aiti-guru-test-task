@@ -2,11 +2,8 @@
 
 import { observer } from 'mobx-react-lite'
 import { TableStore } from '@/lib/store/productsStore'
-import { useState } from 'react'
 
-export const Pagination = observer(({ total }: { total: number }) => {
-  const [store] = useState(() => new TableStore())
-
+export const Pagination = observer(({ total, store }: { total: number; store: TableStore }) => {
   const firstItem = store.page * store.limit - store.limit + 1
   const lastItem = Math.min(store.page * store.limit, total)
   const pagesCount = Math.ceil(total / store.limit)
@@ -15,7 +12,7 @@ export const Pagination = observer(({ total }: { total: number }) => {
     store.setPage(page)
   }
   return (
-    <div className="flex">
+    <div className="flex justify-between align-middle text-font4">
       <div>Показано {firstItem}-{lastItem} из {total}</div>
       <div className="mt-4 flex gap-2">
         <button
