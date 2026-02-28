@@ -8,13 +8,14 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { rootStore } from '@/lib/store/rootStore';
 import { observer } from 'mobx-react';
 import { TableColumn } from '@/types/productConfig';
+import SelectTemplate from '../templates/SelectTemplate';
 
 interface HeaderCellProps {
   col: TableColumn
   className?: string
 }
 
-const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3 px-[9px] text-gray8 font-bold first:pl-[18px] last:pl-[18px]"}) => {
+const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3 px-[9px] text-gray8 font-bold first:pl-[14px] last:pl-[18px]"}) => {
 
   const { productsStore: store } = rootStore
   const { prop, name, width } = col
@@ -39,6 +40,17 @@ const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3
             className="text-blue-500 ml-1"
           />
         )}
+      </th>
+    );
+  }
+
+  if (prop === CHECKBOX_COL) {
+    return (
+      <th
+        className={`${className}`}
+        style={{ width: width ?? `${width}px` }}
+      >
+        <SelectTemplate isSelectAll />
       </th>
     );
   }

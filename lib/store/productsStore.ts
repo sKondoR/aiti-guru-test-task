@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { Product, ProductsResponse } from '@/types'
 import { QueryClient, QueryObserver } from '@tanstack/react-query'
+import { isArraysEqualUnordered } from '../utils'
 
 export type SortOrder = 'asc' | 'desc'
 
@@ -10,7 +11,6 @@ export class ProductsStore {
   page = 1
   limit = 5
   searchQuery = ''
-  selectedRows: number[] = []
   sortBy = ''
   order = 'asc' as SortOrder
 
@@ -18,6 +18,9 @@ export class ProductsStore {
   total = 0
   isLoading = false
   error: string | null = null
+  
+  isAllSelected: boolean = false
+  selectedRows: number[] = []
 
   private productsQueryObserver: QueryObserver<ProductsResponse>
 
@@ -114,12 +117,23 @@ export class ProductsStore {
     this.updateQuery()
   }
 
+  toggleSelectAll() {
+    if (!this.isAllSelected) {
+      this.selectedRows = this.products.map(item => item.id)
+      this.isAllSelected = true
+    } else {
+      this.selectedRows = []
+      this.isAllSelected = false
+    }
+  }
+
   toggleRowSelection(id: number) {
     if (this.selectedRows.includes(id)) {
       this.selectedRows = this.selectedRows.filter(rowId => rowId !== id)
     } else {
       this.selectedRows.push(id)
     }
+    this.isAllSelected = isArraysEqualUnordered(this.selectedRows, this.products.map(item => item.id))
   }
 
   setSortBy(column: string) {

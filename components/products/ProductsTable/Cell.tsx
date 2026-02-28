@@ -5,7 +5,7 @@ import React from 'react';
 import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '../products.constants'
 import ProductTemplate from '../templates/ProductTemplate';
 import RatingTemplate from '../templates/RatingTemplate';
-import CheckboxTemplate from '../templates/CheckboxTemplate';
+import SelectTemplate from '../templates/SelectTemplate';
 
 interface CellProps {
   item: Product
@@ -33,7 +33,7 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
   if (prop === CHECKBOX_COL) {
     return (
       <td className={className}>
-        <CheckboxTemplate item={item} />
+        <SelectTemplate item={item} />
       </td>
     );
   }

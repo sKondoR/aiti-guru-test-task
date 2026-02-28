@@ -21,7 +21,7 @@ export const ProductsTable = observer(() => {
       <div className="relative">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b-2 border-gray5s">
+            <tr className="border-b-2 border-t-transparent border-r-transparent border-b-gray border-l-4 border-l-transparent">
               {productsConfig.map((col: TableColumn) => (
                 <HeaderCell
                   key={`${col.id}`}
@@ -35,7 +35,7 @@ export const ProductsTable = observer(() => {
               <tr
                 key={product.id ?? `${rowIndex}-empty`}
                 className={`border-b-2 border-t-transparent border-r-transparent border-b-gray border-l-4 
-                  ${store.selectedRows.includes(product.id) ? 'border-l-[#3C538E]' : 'border-l-transparent'}
+                  ${store.selectedRows.includes(product.id) ? 'border-l-[var(--primary-blue-color)]' : 'border-l-transparent'}
                 `}
               >
                 {productsConfig.map(({ prop, id }: TableColumn) => (

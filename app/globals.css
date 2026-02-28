@@ -17,6 +17,8 @@
   --color-gray7: #ececeb; /* thumbnail border */
   --color-gray8: #b2b3b9; /* light gray text */
 
+  --primary-blue-color: #3C538E; 
+
   --color-primary: #222222; /* dark gray text */
   --bg-main: #f9f9f9;
   --bg-login: #f6f6f6;
@@ -73,4 +75,9 @@ svg[class*="fa-"] {
 
 input[type=checbox]:checked::after {
   display: none;
+}
+
+input[type=checbox]:checked {
+  appearance: none;
+ -webkit-appearance: none;
 }
