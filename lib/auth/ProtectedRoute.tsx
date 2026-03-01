@@ -14,26 +14,28 @@ export function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedR
   const router = useRouter()
   const currentPath = usePathname()
   const [isHydrated, setIsHydrated] = useState(false)
-  const [hasRedirected, setHasRedirected] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   useEffect(() => {
     setIsHydrated(true)
   }, [])
 
   useEffect(() => {
-    if (!isHydrated || hasRedirected) return
+    if (!isHydrated) return
     
     if (!authorizationStore.isAuthenticated) {
       const redirectUrl = `${redirectPath}?redirect=${encodeURIComponent(currentPath)}`
       router.replace(redirectUrl)
-      setHasRedirected(true)
+      setShouldRedirect(true)
     }
-  }, [currentPath, redirectPath, router, isHydrated, hasRedirected, authorizationStore.isAuthenticated])
+  }, [authorizationStore.isAuthenticated, currentPath, redirectPath, router, isHydrated])
 
-  if (!isHydrated) {
+  // Wait for hydration and redirect check
+  if (!isHydrated || shouldRedirect) {
     return null
   }
 
+  // If not authenticated after redirect check, show null
   if (!authorizationStore.isAuthenticated) {
     return null
   }
