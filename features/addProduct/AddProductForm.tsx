@@ -3,7 +3,10 @@
 import { observer } from 'mobx-react-lite'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faXmark } from '@fortawesome/free-solid-svg-icons'
+
 import type { Product } from '@/entities/product/product.types'
+import { rootStore } from '@/lib/store/rootStore'
+import { ToastType } from '@/entities/toast/toast.types'
 
 interface AddProductFormProps {
   isOpen: boolean
@@ -11,6 +14,9 @@ interface AddProductFormProps {
 }
 
 const AddProductForm: React.FC<AddProductFormProps> = observer(({ isOpen, onClose }) => {
+
+  const { toastsStore } = rootStore
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
@@ -25,6 +31,12 @@ const AddProductForm: React.FC<AddProductFormProps> = observer(({ isOpen, onClos
       rating: 0,
     }
 
+    toastsStore.addToast({
+        type: 'success' as ToastType,
+        message: `Добавлен товар: ${newProduct.title}`,
+        autoClose: true,
+        duration: 15 * 1000,
+    })
     console.log('Новый товар:', newProduct)
     onClose()
   }
