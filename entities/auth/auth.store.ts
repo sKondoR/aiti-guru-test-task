@@ -70,9 +70,6 @@ export class AuthorizationStore {
         return
       }
 
-      console.log('data.user ', data.user)
-      // Создаем новый объект для лучшей реактивности
-      console.log('this.user1> ', { ...data.user });
       this.user = { ...data.user }
       this.isAuthenticated = true
       this.rememberMe = rememberMe
@@ -127,8 +124,6 @@ export class AuthorizationStore {
     sessionStorage.removeItem('refreshToken')
     sessionStorage.removeItem('username')
     sessionStorage.removeItem('userId')
-    console.log('logout')
-    // window.location.href = '/'
   }
 
   updateRememberMe(value: boolean) {
