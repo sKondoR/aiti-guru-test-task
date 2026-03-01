@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useSearchParams } from 'next/navigation'
-
-import { authorizationStore } from '@/entities/auth/auth.store'
-import { SimpleIcon } from '@/shared/ui/SimpleIcon'
-
-import styles from './loginForm.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+
+import styles from './loginForm.module.css'
+import { validateLoginForm } from './loginForm.util'
+
+import { SimpleIcon } from '@/shared/ui/SimpleIcon'
+import { authorizationStore } from '@/entities/auth/auth.store'
 
 export const LoginForm: React.FC = observer(() => {
   const [login, setLogin] = useState('')
@@ -56,6 +57,8 @@ export const LoginForm: React.FC = observer(() => {
     )
   }
 
+  const validation = validateLoginForm(login, password)
+  const errorMsg = authorizationStore.error || validation.login || validation.password
   const isSubmitDisabled = !login.trim() || !password.trim() || authorizationStore.isLoading
   return (
     <form onSubmit={handleSubmit} className="space-y-6 font-inter">
@@ -69,8 +72,9 @@ export const LoginForm: React.FC = observer(() => {
             id="login"
             value={login}
             onChange={handleLoginChange}
-            className="w-full px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-            placeholder="Введите логин"
+            className={`w-full px-12 py-3 border  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition
+              ${validation.login ? 'border-red-500': 'border-gray-300'}
+            `}placeholder="Введите логин"
           />
           <SimpleIcon
             src="/user.svg"
@@ -96,7 +100,9 @@ export const LoginForm: React.FC = observer(() => {
             id="password"
             value={password}
             onChange={handlePasswordChange}
-            className="w-full px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            className={`w-full px-12 py-3 border  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition
+              ${validation.password ? 'border-red-500': 'border-gray-300'}
+            `}
             placeholder="Введите пароль"
           />
           <SimpleIcon
@@ -125,9 +131,9 @@ export const LoginForm: React.FC = observer(() => {
         </label>
       </div>
 
-      {authorizationStore.error && (
+      {errorMsg && (
         <div className="text-red-500 text-center">
-          {authorizationStore.error}
+          {authorizationStore.error} {validation.login} {validation.password}
         </div>
       )}
 
