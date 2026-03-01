@@ -7,7 +7,6 @@ export interface Product {
   sku: string
   rating: number
   price: number
-  stock: number
 }
 
 export interface ProductsResponse {

@@ -40,6 +40,14 @@
     font-family: var(--third-family); /* login form */
   }
 
+  .font-second {
+    font-family: var(--font-open-sans); /* login form */
+  }
+
+  .font-mono {
+    font-family: var(--font3); /* login form */
+  }
+
   .bg-gray3 { background-color: var(--color-gray3) } /* search bg */
   .border-gray4 { border-color: var(--color-gray4) } /* input borders */
   .border-b-gray5 { border-bottom-color: var(--color-gray5) } /* table borders */

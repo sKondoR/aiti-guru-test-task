@@ -7,7 +7,7 @@ import type { ProductsResponse } from '@/entities/product/product.types'
 export async function GET(request: NextRequest) {
   try {
     const searchParams = new URLSearchParams(request.nextUrl.searchParams)
-    searchParams.set('select', 'title,brand,sku,rating,price,stock,category,thumbnail')
+    searchParams.set('select', 'title,brand,sku,rating,price,category,thumbnail')
     let url = `${API_URL}/products`
     if (searchParams.get('q')) {
       url += '/search';

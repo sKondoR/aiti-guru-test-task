@@ -7,7 +7,8 @@ import RatingTemplate from '../templates/RatingTemplate'
 import SelectTemplate from '../templates/SelectTemplate'
 
 import type { Product } from '@/entities/product/product.types'
-import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '@/entities/product/products.constants'
+import { BRAND_COL, CHECKBOX_COL, PRICE_COL, RATING_COL, SKU_COL, TITLE_COL } from '@/entities/product/products.constants'
+import PriceTemplate from '../templates/PriceTemplate'
 
 interface CellProps {
   item: Product
@@ -40,9 +41,18 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
     )
   }
 
+  if (prop === PRICE_COL) {
+    return (
+      <td className={className}>
+        <PriceTemplate item={item} />
+      </td>
+    )
+  }
+
   const boldClass = [BRAND_COL].includes(prop) ? 'font-bold' : ''
+  const fontClass = [BRAND_COL, SKU_COL].includes(prop) ? 'font-second' : ''
   return (
-    <td className={`${className} ${boldClass}`}>
+    <td className={`${className} ${boldClass} ${fontClass}`}>
       {item[prop as keyof Product]}
     </td>
   )

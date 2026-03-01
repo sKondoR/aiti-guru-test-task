@@ -39,7 +39,7 @@ const HeaderCell: React.FC<HeaderCellProps> = observer(({ col, className = "py-3
         {isSorted && (
           <FontAwesomeIcon
             icon={isAsc ? faCaretUp : faCaretDown}
-            className="text-blue-500 ml-1"
+            className="text-gray-700 ml-1"
           />
         )}
       </th>

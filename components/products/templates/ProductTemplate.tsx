@@ -1,16 +1,16 @@
-import React from 'react';
-import Image from 'next/image';
+import React from 'react'
+import Image from 'next/image'
 
 import { THUMBBNAIL_URL } from '@/shared/constants'
 
 import type { Product } from '@/entities/product/product.types'
 
 interface ProductTemplateProps {
-  item: Product;
+  item: Product
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({ item }) => {
-  const proxyUrl = item.thumbnail?.replace(THUMBBNAIL_URL, '/api/dummy-image');
+  const proxyUrl = item.thumbnail?.replace(THUMBBNAIL_URL, '/api/dummy-image')
   return (
     <div className="flex min-h-[48px]">
       <div className="w-12 h-12 bg-gray6 border border-gray7 rounded-lg overflow-hidden mr-4">
@@ -22,7 +22,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ item }) => {
       </div>
       
     </div>
-  );
-};
+  )
+}
 
-export default ProductTemplate;
+export default ProductTemplate

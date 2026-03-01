@@ -13,8 +13,8 @@ import { SimpleIcon } from '@/shared/ui/SimpleIcon'
 import { rootStore } from '@/lib/store/rootStore'
 
 type ValidationErrors = {
-  login?: string;
-  password?: string;
+  login?: string
+  password?: string
 }
 
 export const LoginForm: React.FC = observer(() => {
@@ -25,7 +25,7 @@ export const LoginForm: React.FC = observer(() => {
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true)
   const [validation, setValidation] = useState<ValidationErrors>({})
 
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
   const router = useRouter()
 
   useEffect(() => {

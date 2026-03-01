@@ -17,7 +17,7 @@ const User: React.FC = observer(() => {
 
   return (
       <>
-        <span className="font-bold mr-2">{store.user?.username}</span>
+        <span className="font-bold">{store.user?.username}</span>
           <button
             onClick={handleLogout}
             className="px-3 py-1 text-gray-500 hover:text-[var(--color-primary)] disabled:opacity-30 disabled:hover:text-gray-500 cursor-pointer"
