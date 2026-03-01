@@ -1,4 +1,4 @@
-import ProductsPageContent from '@/features/showProducts/ProductsPageContent'
+import ProductsPageContent from '@/widgets/ProductsPageContent'
 import { ProtectedRoute } from '@/lib/auth/ProtectedRoute'
 
 export default function HomePage() {

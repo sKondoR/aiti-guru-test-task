@@ -1,5 +1,4 @@
-import { SearchForm } from '../SearchForm'
-
+import { SearchForm } from '@/features/searchProduct'
 import { User } from '@/features/logoutUser'
 
 interface NavigationPanelProps {

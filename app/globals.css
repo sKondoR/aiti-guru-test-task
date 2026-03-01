@@ -1,5 +1,5 @@
 @tailwind base;
-@tailwind features;
+@tailwind components;
 @tailwind utilities;
 
 :root {
@@ -28,7 +28,12 @@
   --input-bg-secondary: var(--color-gray3);
   --input-border: var(--color-gray4);
   
-
+    .text-20px {
+      font-size: 1.25rem;
+    }
+    .text-18px {
+      font-size: 1.125rem; 
+    }
 }
 
 @layer utilities {
