@@ -1,31 +1,31 @@
 'use client'
 
-import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { authorizationStore } from 'lib/store/authorizationStore';
-import React from 'react';
+import { useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { authorizationStore } from 'lib/store/authorizationStore'
+import React from 'react'
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
-  redirectPath?: string;
+  children: React.ReactNode
+  redirectPath?: string
 }
 
 export function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedRouteProps) {
-  const router = useRouter();
+  const router = useRouter()
   const currentPath = usePathname()
 
   useEffect(() => {
     if (!authorizationStore.isAuthenticated) {
-      const redirectUrl = `${redirectPath}?redirect=${encodeURIComponent(currentPath)}`;
-      router.replace(redirectUrl);
+      const redirectUrl = `${redirectPath}?redirect=${encodeURIComponent(currentPath)}`
+      router.replace(redirectUrl)
     }
-  }, [authorizationStore.isAuthenticated, redirectPath, router]);
+  }, [authorizationStore.isAuthenticated, redirectPath, router])
 
   if (!authorizationStore.isAuthenticated) {
-    return null;
+    return null
   }
 
-  return <React.Fragment>{children}</React.Fragment>;
+  return <>{children}</>
 }
 
 export function useRequireAuth() {
@@ -33,8 +33,8 @@ export function useRequireAuth() {
   const currentPath = usePathname()
 
   if (!authorizationStore.isAuthenticated) {
-    const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`;
-    router.replace(redirectUrl);
+    const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
+    router.replace(redirectUrl)
   }
 }
 
@@ -46,11 +46,11 @@ export function withAuth(WrappedComponent: React.ComponentType) {
 
     if (!authorizationStore.isAuthenticated) {
       // Сохраняем URL, на который хотели попасть
-      const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`;
-      router.replace(redirectUrl);
-      return null;
+      const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
+      router.replace(redirectUrl)
+      return null
     }
 
-    return <WrappedComponent {...props} />;
-  };
+    return <WrappedComponent {...props} />
+  }
 }

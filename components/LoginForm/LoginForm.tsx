@@ -1,45 +1,45 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import { authorizationStore } from '@/lib/store/authorizationStore';
+import { useState, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { authorizationStore } from '@/lib/store/authorizationStore'
 
 export const LoginForm = observer(() => {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [login, setLogin] = useState('')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
   useEffect(() => {
     // Проверяем аутентификацию при загрузке
     const checkAuth = async () => {
-      await authorizationStore.checkAuth();
-      setIsCheckingAuth(false);
-    };
-    checkAuth();
-  }, []);
+      await authorizationStore.checkAuth()
+      setIsCheckingAuth(false)
+    }
+    checkAuth()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    authorizationStore.clearError();
-    await authorizationStore.login(login, password, rememberMe);
-  };
+    e.preventDefault()
+    authorizationStore.clearError()
+    await authorizationStore.login(login, password, rememberMe)
+  }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin(e.target.value);
-  };
+    setLogin(e.target.value)
+  }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+    setPassword(e.target.value)
+  }
 
   const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRememberMe(e.target.checked);
-  };
+    setRememberMe(e.target.checked)
+  }
 
   const handleLogout = async () => {
-    await authorizationStore.logout();
-  };
+    await authorizationStore.logout()
+  }
 
   if (isCheckingAuth) {
     return (
@@ -47,7 +47,7 @@ export const LoginForm = observer(() => {
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         <p className="mt-4 text-gray-600">Проверка авторизации...</p>
       </div>
-    );
+    )
   }
 
   if (authorizationStore.isAuthenticated && authorizationStore.user) {
@@ -74,7 +74,7 @@ export const LoginForm = observer(() => {
           Выйти
         </button>
       </div>
-    );
+    )
   }
 
   return (
@@ -90,7 +90,6 @@ export const LoginForm = observer(() => {
           onChange={handleLoginChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
           placeholder="Введите логин"
-          autoComplete="username"
         />
       </div>
 
@@ -105,7 +104,6 @@ export const LoginForm = observer(() => {
           onChange={handlePasswordChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
           placeholder="Введите пароль"
-          autoComplete="current-password"
         />
       </div>
 
@@ -136,5 +134,5 @@ export const LoginForm = observer(() => {
         {authorizationStore.isLoading ? 'Вход...' : 'Войти'}
       </button>
     </form>
-  );
-});
+  )
+})
