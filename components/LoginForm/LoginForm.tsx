@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
@@ -25,6 +25,7 @@ export const LoginForm: React.FC = observer(() => {
   const [validation, setValidation] = useState<ValidationErrors>({})
 
   const searchParams = useSearchParams();
+  const router = useRouter()
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -44,8 +45,8 @@ export const LoginForm: React.FC = observer(() => {
 
     await authorizationStore.login(login, password, rememberMe)
     if (authorizationStore.isAuthenticated) {
-        const redirect = searchParams.get('redirect') || '/'
-        window.location.href = redirect   
+      const redirect = searchParams.get('redirect') || '/'
+      router.replace(redirect)
     }
   }
 
@@ -94,12 +95,12 @@ export const LoginForm: React.FC = observer(() => {
             alt="user icon"
             className="absolute top-3 left-3 text-gray-500"
           />
-          <SimpleIcon
+          {!!login.length && <SimpleIcon
             src="/cross.svg"
             alt="clear user"
             className="absolute top-3 right-3 text-gray-500 c cursor-pointer"
             onClick={() => setLogin('')}
-          />
+          />}
         </div>
       </div>
 

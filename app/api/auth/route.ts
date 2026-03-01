@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-        console.log('here', username, password)
       const errorData = await response.json()
       let errorMsg = errorData.message || 'Ошибка авторизации'
       if (errorMsg === 'Invalid credentials')  {
@@ -43,8 +42,6 @@ export async function POST(request: NextRequest) {
     }
 
     const data: DummyJsonAuthResponse = await response.json()
-    console.log('data', data)
-
     const responseJson: AuthResponse = {
       success: true,
       user: {

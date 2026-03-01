@@ -14,20 +14,20 @@ export class AuthorizationStore {
   }
 
   loadAuthData() {
-    console.log('loadAuthData')
     if (typeof window !== 'undefined') {
       const savedAccessToken = localStorage.getItem('accessToken')
       const savedRefreshToken = localStorage.getItem('refreshToken')
       const sessionAccessToken = sessionStorage.getItem('accessToken')
       const sessionRefreshToken = sessionStorage.getItem('refreshToken')
 
-      if (this.rememberMe && savedAccessToken && savedRefreshToken) {
+      if (savedAccessToken && savedRefreshToken) {
         try {
           this.user = {
             id: parseInt(localStorage.getItem('userId') || '0'),
             username: localStorage.getItem('username') || '',
           }
           this.isAuthenticated = true
+          this.rememberMe = true
         } catch (e) {
           console.error('Failed to parse auth data:', e)
         }
@@ -38,6 +38,7 @@ export class AuthorizationStore {
             username: sessionStorage.getItem('username') || '',
           }
           this.isAuthenticated = true
+          this.rememberMe = false
         } catch (e) {
           console.error('Failed to parse auth data:', e)
         }
@@ -74,7 +75,7 @@ export class AuthorizationStore {
       this.isAuthenticated = true
       this.rememberMe = rememberMe
 
-      const storage = rememberMe ? localStorage : sessionStorage;
+      const storage = rememberMe ? localStorage : sessionStorage
       storage.setItem('accessToken', data.accessToken)
       storage.setItem('refreshToken', data.refreshToken)
       storage.setItem('username', data.user.username)
@@ -97,8 +98,6 @@ export class AuthorizationStore {
       const data = await response.json()
 
       if (response.ok && data.user) {
-        // Создаем новый объект для лучшей реактивности
-        console.log('this.user2> ', { ...data.user });
         this.user = { ...data.user }
         this.isAuthenticated = true
         this.rememberMe = data.rememberMe || false
