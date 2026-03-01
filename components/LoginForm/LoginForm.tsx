@@ -10,7 +10,7 @@ import styles from './loginForm.module.css'
 import { validateLoginForm } from './loginForm.util'
 
 import { SimpleIcon } from '@/shared/ui/SimpleIcon'
-import { authorizationStore } from '@/entities/auth/auth.store'
+import { rootStore } from '@/lib/store/rootStore'
 
 type ValidationErrors = {
   login?: string;
@@ -18,6 +18,7 @@ type ValidationErrors = {
 }
 
 export const LoginForm: React.FC = observer(() => {
+  const { authorizationStore } = rootStore
   const [login, setLogin] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [rememberMe, setRememberMe] = useState<boolean>(false)

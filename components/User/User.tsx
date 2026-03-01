@@ -4,12 +4,11 @@ import { useRouter } from 'next/navigation'
 import { observer } from 'mobx-react-lite'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
-import { authorizationStore } from '@/entities/auth/auth.store'
+import { rootStore } from '@/lib/store/rootStore'
 
 const User: React.FC = observer(() => {
   const router = useRouter()
-  const store = authorizationStore
-
+  const { authorizationStore: store } = rootStore
   
   const handleLogout = () => {
     store.logout()

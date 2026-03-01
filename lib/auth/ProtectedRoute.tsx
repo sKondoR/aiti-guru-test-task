@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { authorizationStore } from '@/entities/auth/auth.store'
+import { rootStore } from '@/lib/store/rootStore'
 import React from 'react'
 
 interface ProtectedRouteProps {
@@ -11,6 +11,7 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedRouteProps) {
+  const { authorizationStore } = rootStore
   const router = useRouter()
   const currentPath = usePathname()
   const [isHydrated, setIsHydrated] = useState(false)
