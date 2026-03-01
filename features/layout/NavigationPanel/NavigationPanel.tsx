@@ -1,6 +1,6 @@
 import { SearchForm } from '../SearchForm'
 
-import { User } from '@/components/User'
+import { User } from '@/features/logoutUser'
 
 interface NavigationPanelProps {
   title?: string

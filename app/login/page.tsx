@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { LoginForm } from '@/components/LoginForm'
+import { LoginForm } from '@/features/loginUser'
 import { Logo } from '@/shared/ui/Logo'
 import { LoginPanel } from '@/shared/ui/LoginPanel'
 
