@@ -10,7 +10,7 @@ const User: React.FC = observer(() => {
 
   if (!store.user) return null
 
-  console.log('store', store);
+  console.log('Full store:', JSON.parse(JSON.stringify(store)));
   const handleLogout = () => {
     store.logout()
   }

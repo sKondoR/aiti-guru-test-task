@@ -5,14 +5,14 @@ import { AuthResponse, DummyJsonAuthResponse } from '@/entities/auth/auth.types'
 
 export async function POST(request: NextRequest) {
   try {
-    const { username, password } = await request.json();
+    const { username, password } = await request.json()
 
     // Валидация входных данных
     if (!username || !password) {
       return NextResponse.json(
         { error: 'Введите логин и пароль' },
         { status: 400 }
-      );
+      )
     }
 
     // Вызов API dummyjson для получения токенов
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
         expiresInMins: 30,
       }),
       credentials: 'include',
-    });
+    })
 
     if (!response.ok) {
         console.log('here', username, password)
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: errorMsg },
         { status: response.status }
-      );
+      )
     }
 
     const data: DummyJsonAuthResponse = await response.json()
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       },
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
-    };
+    }
 
     return NextResponse.json(responseJson)
   } catch (error) {
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { error: 'Внутренняя ошибка сервера' },
       { status: 500 }
-    );
+    )
   }
 }
 
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: 'Токен не найден' },
         { status: 401 }
-      );
+      )
     }
 
     const response = await fetch(`${API_URL}/auth/me`, {
@@ -95,16 +95,16 @@ export async function GET(request: NextRequest) {
             expiresInMins: 30,
           }),
           credentials: 'include',
-        });
+        })
 
         if (!refreshResponse.ok) {
           return NextResponse.json(
             { error: 'Токен истек' },
             { status: 401 }
-          );
+          )
         }
 
-        const refreshData: DummyJsonAuthResponse = await refreshResponse.json();
+        const refreshData: DummyJsonAuthResponse = await refreshResponse.json()
 
         const responseJson: AuthResponse = {
           success: true,
@@ -114,9 +114,9 @@ export async function GET(request: NextRequest) {
           },
           accessToken: refreshData.accessToken,
           refreshToken: refreshData.refreshToken,
-        };
+        }
 
-        const response = NextResponse.json(responseJson);
+        const response = NextResponse.json(responseJson)
 
         response.cookies.set('accessToken', refreshData.accessToken, {
           httpOnly: true,
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'lax',
           maxAge: 30 * 60,
-        });
+        })
 
         return response
       }
@@ -138,10 +138,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: 'Токен истек' },
         { status: 401 }
-      );
+      )
     }
 
-    const userData: DummyJsonAuthResponse = await response.json();
+    const userData: DummyJsonAuthResponse = await response.json()
 
     const responseJson: AuthResponse = {
       success: true,
@@ -151,14 +151,14 @@ export async function GET(request: NextRequest) {
       },
       accessToken,
       refreshToken,
-    };
+    }
 
-    return NextResponse.json(responseJson);
+    return NextResponse.json(responseJson)
   } catch (error) {
     console.error('Auth error:', error)
     return NextResponse.json(
       { error: 'Внутренняя ошибка сервера'},
       { status: 500 }
-    );
+    )
   }
 }

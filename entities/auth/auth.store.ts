@@ -14,6 +14,7 @@ export class AuthorizationStore {
   }
 
   loadAuthData() {
+    console.log('loadAuthData')
     if (typeof window !== 'undefined') {
       const savedAccessToken = localStorage.getItem('accessToken')
       const savedRefreshToken = localStorage.getItem('refreshToken')
@@ -25,8 +26,6 @@ export class AuthorizationStore {
           this.user = {
             id: parseInt(localStorage.getItem('userId') || '0'),
             username: localStorage.getItem('username') || '',
-            login: '',
-            password: '',
           }
           this.isAuthenticated = true
         } catch (e) {
@@ -37,8 +36,6 @@ export class AuthorizationStore {
           this.user = {
             id: parseInt(sessionStorage.getItem('userId') || '0'),
             username: sessionStorage.getItem('username') || '',
-            login: '',
-            password: '',
           }
           this.isAuthenticated = true
         } catch (e) {
@@ -73,19 +70,19 @@ export class AuthorizationStore {
         return
       }
 
-      // Сохраняем данные пользователя и токены
-      this.user = data.user
+      console.log('data.user ', data.user)
+      // Создаем новый объект для лучшей реактивности
+      console.log('this.user1> ', { ...data.user });
+      this.user = { ...data.user }
       this.isAuthenticated = true
       this.rememberMe = rememberMe
 
-      if (rememberMe) {
-        
-        localStorage.setItem('accessToken', data.accessToken)
-        localStorage.setItem('refreshToken', data.refreshToken)
-      } else {
-        sessionStorage.setItem('accessToken', data.accessToken)
-        sessionStorage.setItem('refreshToken', data.refreshToken)
-      }
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem('accessToken', data.accessToken)
+      storage.setItem('refreshToken', data.refreshToken)
+      storage.setItem('username', data.user.username)
+      storage.setItem('userId', data.user.id)
+
 
       this.isLoading = false
     } catch (error) {
@@ -104,7 +101,9 @@ export class AuthorizationStore {
       const data = await response.json()
 
       if (response.ok && data.user) {
-        this.user = data.user
+        // Создаем новый объект для лучшей реактивности
+        console.log('this.user2> ', { ...data.user });
+        this.user = { ...data.user }
         this.isAuthenticated = true
         this.rememberMe = data.rememberMe || false
       } else {
@@ -118,13 +117,19 @@ export class AuthorizationStore {
 
   logout() {
     this.isAuthenticated = false
+    // Явное присвоение null для лучшей реактивности
+    console.log('this.user3> ', null);
     this.user = null
     this.rememberMe = false
 
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
     sessionStorage.removeItem('accessToken')
     sessionStorage.removeItem('refreshToken')
+    sessionStorage.removeItem('username')
+    sessionStorage.removeItem('userId')
   }
 
   updateRememberMe(value: boolean) {
