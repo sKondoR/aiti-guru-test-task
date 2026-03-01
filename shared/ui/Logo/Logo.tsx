@@ -5,7 +5,7 @@ export default function Logo({ className }: { className: string }) {
  console.log(className)
   return (
     <div className={`${styles.logoBadge} ${className}`}>
-      <div className={`${styles.logoBadgeBg} flex justify-center itens-center`}>
+      <div className={styles.logoBadgeBg}>
         <Image 
           src="/logo.svg"
           alt="Logo"

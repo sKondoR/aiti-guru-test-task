@@ -1,8 +1,10 @@
-.loginPanelBg {
-  background: linear-gradient(180deg, #23232308 0%, #23232300 50%);
-}
-
 .loginPanelShadow {
   box-shadow: 0 24px 32px 0 rgba(0, 0, 0, 0.04);
+  @apply w-auto md:w-[520px] bg-white p-[6px] rounded-[40px];
+}
+
+.loginPanelBg {
+  background: linear-gradient(180deg, #23232308 0%, #23232300 50%);
+  @apply p-10 rounded-[34px];
 }
 

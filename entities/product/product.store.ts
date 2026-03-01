@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { Product, ProductsResponse } from '@/types'
 import { QueryClient, QueryObserver } from '@tanstack/react-query'
 import { isArraysEqualUnordered } from '@/shared/utils'
+import { Product, ProductsResponse } from './product.types'
 
 export type SortOrder = 'asc' | 'desc'
 
@@ -89,7 +89,6 @@ export class ProductsStore {
           order: this.order,
         })
 
-        console.log('queryFn', searchParams, this.searchQuery);
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
         const response = await fetch(`${baseUrl}/api/products?${searchParams}`)
         if (!response.ok) throw new Error('Failed to fetch products')
