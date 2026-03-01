@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'
+
+import { API_URL } from '@/shared/constants'
+import { AuthResponse, DummyJsonAuthResponse } from '@/entities/auth/auth.types'
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,7 +16,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Вызов API dummyjson для получения токенов
-    const response = await fetch('https://dummyjson.com/auth/login', {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,10 +42,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
+    const data: DummyJsonAuthResponse = await response.json();
     console.log('data', data)
 
-    return NextResponse.json({
+    const responseJson: AuthResponse = {
       success: true,
       user: {
         id: data.id,
@@ -50,7 +53,9 @@ export async function POST(request: NextRequest) {
       },
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
-    });
+    };
+
+    return NextResponse.json(responseJson);
   } catch (error) {
     console.error('Auth error:', error);
     return NextResponse.json(
@@ -62,9 +67,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    // Получаем токены из куки или localStorage/sessionStorage
-    const accessToken = request.cookies.get('accessToken')?.value;
-    const refreshToken = request.cookies.get('refreshToken')?.value;
+    const accessToken = request.cookies.get('accessToken')?.value as string;
+    const refreshToken = request.cookies.get('refreshToken')?.value as string;
 
     if (!accessToken) {
       return NextResponse.json(
@@ -73,17 +77,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Проверяем валидность токена через dummyjson API
-    const response = await fetch('https://dummyjson.com/auth/me', {
+    const response = await fetch(`${API_URL}/auth/me`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
     });
 
     if (!response.ok) {
-      // Если токен недействителен, пробуем обновить его
       if (refreshToken) {
-        const refreshResponse = await fetch('https://dummyjson.com/auth/refresh', {
+        const refreshResponse = await fetch(`${API_URL}/auth/refresh`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -102,17 +104,19 @@ export async function GET(request: NextRequest) {
           );
         }
 
-        const refreshData = await refreshResponse.json();
+        const refreshData: DummyJsonAuthResponse = await refreshResponse.json();
 
-        // Обновляем токены в куки
-        const response = NextResponse.json({
+        const responseJson: AuthResponse = {
           success: true,
           user: {
             id: refreshData.id,
+            username: refreshData.username,
           },
           accessToken: refreshData.accessToken,
           refreshToken: refreshData.refreshToken,
-        });
+        };
+
+        const response = NextResponse.json(responseJson);
 
         response.cookies.set('accessToken', refreshData.accessToken, {
           httpOnly: true,
@@ -137,9 +141,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const userData = await response.json();
+    const userData: DummyJsonAuthResponse = await response.json();
 
-    return NextResponse.json({
+    const responseJson: AuthResponse = {
       success: true,
       user: {
         id: userData.id,
@@ -147,7 +151,9 @@ export async function GET(request: NextRequest) {
       },
       accessToken,
       refreshToken,
-    });
+    };
+
+    return NextResponse.json(responseJson);
   } catch (error) {
     return NextResponse.json(
       { error: 'Внутренняя ошибка сервера' },

@@ -1,11 +1,13 @@
 'use client'
 
-import { Product } from '@/types'
-import React from 'react';
-import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '../../../entities/product/products.constants'
-import ProductTemplate from '../templates/ProductTemplate';
-import RatingTemplate from '../templates/RatingTemplate';
-import SelectTemplate from '../templates/SelectTemplate';
+import React from 'react'
+
+import ProductTemplate from '../templates/ProductTemplate'
+import RatingTemplate from '../templates/RatingTemplate'
+import SelectTemplate from '../templates/SelectTemplate'
+
+import { Product } from '@/entities/product/product.types'
+import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '@/entities/product/products.constants'
 
 interface CellProps {
   item: Product
@@ -19,7 +21,7 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
       <td className={className}>
         <ProductTemplate item={item} />
       </td>
-    );
+    )
   }
   if (prop === RATING_COL) {
     return (
@@ -27,7 +29,7 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
         <RatingTemplate item={item} />
       </td>
     
-    );
+    )
   }
 
   if (prop === CHECKBOX_COL) {
@@ -35,7 +37,7 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
       <td className={className}>
         <SelectTemplate item={item} />
       </td>
-    );
+    )
   }
 
   const boldClass = [BRAND_COL].includes(prop) ? 'font-bold' : ''
@@ -43,7 +45,7 @@ const Cell: React.FC<CellProps> = ({ item, prop, className = "py-3 px-[9px] firs
     <td className={`${className} ${boldClass}`}>
       {item[prop as keyof Product]}
     </td>
-  );
-};
+  )
+}
 
 export default Cell;

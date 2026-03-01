@@ -17,8 +17,7 @@ export interface ProductsResponse {
   limit: number
 }
 
-export interface ProductColumn {
-  id: string;
-  name: string;
-  prop: keyof Product;  
+export interface ProductsQueryParams {
+  q?: string
+  select?: string
 }
