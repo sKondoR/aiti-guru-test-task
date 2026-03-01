@@ -28,9 +28,13 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
         console.log('here', username, password)
-      const errorData = await response.json();
+      const errorData = await response.json()
+      let errorMsg = errorData.message || 'Ошибка авторизации'
+      if (errorMsg === 'Invalid credentials')  {
+        errorMsg = 'Неправильные логин или пароль'
+      }
       return NextResponse.json(
-        { error: errorData.message || 'Ошибка авторизации' },
+        { error: errorMsg },
         { status: response.status }
       );
     }
@@ -38,26 +42,11 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     console.log('data', data)
 
-    // // Определяем, где хранить токены
-    // const storage = rememberMe ? localStorage : sessionStorage;
-
-    // // Сохраняем токены
-    // if (typeof window !== 'undefined') {
-    //   storage.setItem('accessToken', data.accessToken || '');
-    //   storage.setItem('refreshToken', data.refreshToken || '');
-    //   storage.setItem('rememberMe', rememberMe.toString());
-    // }
-
     return NextResponse.json({
       success: true,
       user: {
         id: data.id,
         username: data.username,
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        gender: data.gender,
-        image: data.image,
       },
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
@@ -120,16 +109,9 @@ export async function GET(request: NextRequest) {
           success: true,
           user: {
             id: refreshData.id,
-            username: refreshData.username,
-            email: refreshData.email,
-            firstName: refreshData.firstName,
-            lastName: refreshData.lastName,
-            gender: refreshData.gender,
-            image: refreshData.image,
           },
           accessToken: refreshData.accessToken,
           refreshToken: refreshData.refreshToken,
-          rememberMe: false, // При обновлении токена не запоминаем
         });
 
         response.cookies.set('accessToken', refreshData.accessToken, {
@@ -162,46 +144,11 @@ export async function GET(request: NextRequest) {
       user: {
         id: userData.id,
         username: userData.username,
-        email: userData.email,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        gender: userData.gender,
-        image: userData.image,
       },
       accessToken,
       refreshToken,
-      rememberMe: false, // При проверке токена не запоминаем
     });
   } catch (error) {
-    console.error('Check auth error:', error);
-    return NextResponse.json(
-      { error: 'Внутренняя ошибка сервера' },
-      { status: 500 }
-    );
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function DELETE(_request: NextRequest) {
-  try {
-    // Удаляем токены из куки
-    const response = NextResponse.json({ success: true });
-
-    response.cookies.delete('accessToken');
-    response.cookies.delete('refreshToken');
-
-    // Удаляем токены из localStorage/sessionStorage
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('rememberMe');
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('refreshToken');
-    }
-
-    return response;
-  } catch (error) {
-    console.error('Logout error:', error);
     return NextResponse.json(
       { error: 'Внутренняя ошибка сервера' },
       { status: 500 }

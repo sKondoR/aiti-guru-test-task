@@ -2,8 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { useSearchParams } from 'next/navigation'
+
 import { authorizationStore } from '@/entities/auth/auth.store'
-import { useSearchParams } from "next/navigation";
+import { SimpleIcon } from '@/shared/ui/SimpleIcon'
+
+import styles from './loginForm.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export const LoginForm: React.FC = observer(() => {
   const [login, setLogin] = useState('')
@@ -13,7 +19,6 @@ export const LoginForm: React.FC = observer(() => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Проверяем аутентификацию при загрузке
     const checkAuth = async () => {
       await authorizationStore.checkAuth()
       setIsCheckingAuth(false)
@@ -46,40 +51,65 @@ export const LoginForm: React.FC = observer(() => {
   if (isCheckingAuth) {
     return (
       <div className="text-center py-8">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <p className="mt-4 text-gray-600">Проверка авторизации...</p>
+        <FontAwesomeIcon icon={faSpinner} className="inline mr-2" spin />Проверка авторизации...
       </div>
     )
   }
 
+  const isSubmitDisabled = !login.trim() || !password.trim() || authorizationStore.isLoading
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 font-inter">
       <div>
-        <label htmlFor="login" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="login" className={styles.label}>
           Логин
         </label>
-        <input
-          type="text"
-          id="login"
-          value={login}
-          onChange={handleLoginChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-          placeholder="Введите логин"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            id="login"
+            value={login}
+            onChange={handleLoginChange}
+            className="w-full px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            placeholder="Введите логин"
+          />
+          <SimpleIcon
+            src="/user.svg"
+            alt="user icon"
+            className="absolute top-3 left-3 text-gray-500"
+          />
+          <SimpleIcon
+            src="/cross.svg"
+            alt="clear user"
+            className="absolute top-3 right-3 text-gray-500 c cursor-pointer"
+            onClick={() => setLogin('')}
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="password" className={styles.label}>
           Пароль
         </label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-          placeholder="Введите пароль"
-        />
+        <div className="relative">
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={handlePasswordChange}
+            className="w-full px-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            placeholder="Введите пароль"
+          />
+          <SimpleIcon
+            src="/lock.svg"
+            alt="password icon"
+            className="absolute top-3 left-3 text-gray-500"
+          />
+          <SimpleIcon
+            src="/eye-off.svg"
+            alt="show password icon"
+            className="absolute top-3 right-3 text-gray-500"
+          />
+        </div>
       </div>
 
       <div className="flex items-center">
@@ -90,24 +120,32 @@ export const LoginForm: React.FC = observer(() => {
           onChange={handleRememberMeChange}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
         />
-        <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-700">
+        <label htmlFor="rememberMe" className="ml-2 text-md text-gray-400 cursor-pointer">
           Запомнить данные
         </label>
       </div>
 
       {authorizationStore.error && (
-        <div className="text-red-500 text-sm">
+        <div className="text-red-500 text-center">
           {authorizationStore.error}
         </div>
       )}
 
       <button
         type="submit"
-        disabled={authorizationStore.isLoading}
-        className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400 disabled:cursor-not-allowed transition font-medium"
+        disabled={isSubmitDisabled}
+        className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-200 disabled:cursor-not-allowed transition"
       >
         {authorizationStore.isLoading ? 'Вход...' : 'Войти'}
       </button>
+      <div className="flex relative items-center mt-4 mb-6">
+        <div className="flex-1 inset-x-0 h-px bg-gray-300 my-3"></div>
+        <div className="mx-2 text-gray-400">или</div>
+        <div className="flex-1 inset-x-0 h-px bg-gray-300 my-3"></div>
+      </div>
+      <div className="text-[18px] text-center mt-8 text-gray-600">
+        Нет аккаунта? <a href="/" className="ml-2 font-bold underline underline-offset-4 hover:no-underline">Создать</a>
+      </div>
     </form>
   )
 })

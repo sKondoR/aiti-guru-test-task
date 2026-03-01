@@ -8,7 +8,7 @@ export default function LoginPage() {
     <LoginPanel>
       <Logo className="m-auto mb-5"/>
       <h1 className="text-[40px] text-center">Добро пожаловать!</h1>
-      <p className="text-xl text-center">Пожалуйста, авторизируйтесь</p>
+      <p className="text-[18px] text-center text-gray6 text-shadow-inset mb-8">Пожалуйста, авторизируйтесь</p>
       <LoginForm />
     </LoginPanel>
   )
