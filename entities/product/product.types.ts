@@ -16,8 +16,3 @@ export interface ProductsResponse {
   skip: number
   limit: number
 }
-
-export interface ProductsQueryParams {
-  q?: string
-  select?: string
-}
