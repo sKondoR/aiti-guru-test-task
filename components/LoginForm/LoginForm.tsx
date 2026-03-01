@@ -44,8 +44,8 @@ export const LoginForm: React.FC = observer(() => {
 
     await authorizationStore.login(login, password, rememberMe)
     if (authorizationStore.isAuthenticated) {
-        const redirect = searchParams.get('redirect') || '/';
-        window.location.href = redirect || '/';        
+        const redirect = searchParams.get('redirect') || '/'
+        window.location.href = redirect   
     }
   }
 
@@ -137,7 +137,7 @@ export const LoginForm: React.FC = observer(() => {
           id="rememberMe"
           checked={rememberMe}
           onChange={handleRememberMeChange}
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
         />
         <label htmlFor="rememberMe" className="ml-2 text-md text-gray-400 cursor-pointer">
           Запомнить данные

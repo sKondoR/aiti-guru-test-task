@@ -1,11 +1,13 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { observer } from 'mobx-react-lite'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { rootStore } from '@/lib/store/rootStore'
 
 const User: React.FC = observer(() => {
+  const router = useRouter()
   const { authorizationStore: store } = rootStore
 
   if (!store.user) return null
@@ -13,6 +15,7 @@ const User: React.FC = observer(() => {
   console.log('Full store:', JSON.parse(JSON.stringify(store)));
   const handleLogout = () => {
     store.logout()
+    router.push('/login')
   }
 
   return (
