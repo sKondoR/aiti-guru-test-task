@@ -52,15 +52,12 @@ export class ProductsStore {
       },
     })
 
-    // Subscribe to query changes
     this.setupQuerySubscription()
   }
 
   private async setupQuerySubscription() {
-    // Subscribe to query updates
     this.productsQueryObserver.subscribe((result) => {
       runInAction(() => {
-        console.log('runInAction: ')
         this.products = result?.data?.products || []
         this.total = result?.data?.total || 0
         this.isLoading = result.isLoading
@@ -70,7 +67,6 @@ export class ProductsStore {
     })
   }
 
-  // Method to manually refetch
   async refetchProducts() {
     this.updateQuery()
     await this.queryClient.refetchQueries({ queryKey: ['products'] })

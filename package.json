@@ -1,5 +1,5 @@
 {
-  "name": "climb-now",
+  "name": "aiti-guru-test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,8 +27,8 @@
     "@types/node": "^20.8.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
     "autoprefixer": "^10.4.27",
     "eslint": "^8.52.0",
     "eslint-config-next": "^14.0.0",
