@@ -4,15 +4,13 @@ import { useRouter } from 'next/navigation'
 import { observer } from 'mobx-react-lite'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
-import { rootStore } from '@/lib/store/rootStore'
+import { authorizationStore } from '@/entities/auth/auth.store'
 
 const User: React.FC = observer(() => {
   const router = useRouter()
-  const { authorizationStore: store } = rootStore
+  const store = authorizationStore
 
-  if (!store.user) return null
-
-  console.log('Full store:', JSON.parse(JSON.stringify(store)));
+  
   const handleLogout = () => {
     store.logout()
     router.push('/login')
@@ -20,7 +18,7 @@ const User: React.FC = observer(() => {
 
   return (
       <>
-        <span className="font-bold mr-2">{store.user.username}</span>
+        <span className="font-bold mr-2">{store.user?.username}</span>
           <button
             onClick={handleLogout}
             className="px-3 py-1 text-gray-500 hover:text-[var(--color-primary)] disabled:opacity-30 disabled:hover:text-gray-500 cursor-pointer"
