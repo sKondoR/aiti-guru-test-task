@@ -3,7 +3,12 @@ import { ProductsStore } from '@/entities/product/product.store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-export const Pagination = observer(({ total, store }: { total: number; store: ProductsStore }) => {
+interface PaginationProps {
+  total: number
+  store: ProductsStore
+}
+
+export const Pagination: React.FC<PaginationProps> = observer(({ total, store }) => {
   const firstItem = store.page * store.limit - store.limit + 1
   const lastItem = Math.min(store.page * store.limit, total)
   const pagesCount = Math.ceil(total / store.limit)

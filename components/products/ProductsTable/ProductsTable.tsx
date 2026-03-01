@@ -14,7 +14,7 @@ import { TableColumn } from '@/entities/product/productConfig.types'
 import { Product } from '@/entities/product/product.types'
 import { getEmptyProducts } from '@/entities/product/products.utils'
 
-export const ProductsTable = observer(() => {
+export const ProductsTable: React.FC = observer(() => {
   const { productsStore: store } = rootStore;
 
   const products: Product[] = store.isLoading ? getEmptyProducts(store.limit) : store.products;
@@ -60,7 +60,6 @@ export const ProductsTable = observer(() => {
           </div>
         )}
         
-        {/* Оверлей для ошибки */}
         {store.error && (
           <div className="absolute inset-0 bg-red-300/30 bg-opacommand-80 flex items-center justify-center">
             <div className="text-white text-center">

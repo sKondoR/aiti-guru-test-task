@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data: DummyJsonAuthResponse = await response.json();
+    const data: DummyJsonAuthResponse = await response.json()
     console.log('data', data)
 
     const responseJson: AuthResponse = {
@@ -55,9 +55,9 @@ export async function POST(request: NextRequest) {
       refreshToken: data.refreshToken,
     };
 
-    return NextResponse.json(responseJson);
+    return NextResponse.json(responseJson)
   } catch (error) {
-    console.error('Auth error:', error);
+    console.error('Auth error:', error)
     return NextResponse.json(
       { error: 'Внутренняя ошибка сервера' },
       { status: 500 }
@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const accessToken = request.cookies.get('accessToken')?.value as string;
-    const refreshToken = request.cookies.get('refreshToken')?.value as string;
+    const accessToken = request.cookies.get('accessToken')?.value as string
+    const refreshToken = request.cookies.get('refreshToken')?.value as string
 
     if (!accessToken) {
       return NextResponse.json(
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
-    });
+    })
 
     if (!response.ok) {
       if (refreshToken) {
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'lax',
           maxAge: 30 * 60, // 30 минут
-        });
+        })
 
         response.cookies.set('refreshToken', refreshData.refreshToken, {
           httpOnly: true,
@@ -132,7 +132,7 @@ export async function GET(request: NextRequest) {
           maxAge: 30 * 60,
         });
 
-        return response;
+        return response
       }
 
       return NextResponse.json(
@@ -155,8 +155,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(responseJson);
   } catch (error) {
+    console.error('Auth error:', error)
     return NextResponse.json(
-      { error: 'Внутренняя ошибка сервера' },
+      { error: 'Внутренняя ошибка сервера'},
       { status: 500 }
     );
   }

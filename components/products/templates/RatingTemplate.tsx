@@ -1,11 +1,14 @@
 import React from 'react'
 
+import { WARNING_RATING } from '@/shared/constants'
+
 import { Product } from '@/entities/product/product.types'
 
+
 interface RatingTemplateProps {
-  item: Product;
+  item: Product
 }
-const WARNING_RATING = 3;
+
 const RatingTemplate: React.FC<RatingTemplateProps> = ({ item }) => {
   if (!item.rating) return ''
   return (

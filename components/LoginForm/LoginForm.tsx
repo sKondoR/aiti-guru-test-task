@@ -12,11 +12,18 @@ import { validateLoginForm } from './loginForm.util'
 import { SimpleIcon } from '@/shared/ui/SimpleIcon'
 import { authorizationStore } from '@/entities/auth/auth.store'
 
+type ValidationErrors = {
+  login?: string;
+  password?: string;
+}
+
 export const LoginForm: React.FC = observer(() => {
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+  const [login, setLogin] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true)
+  const [validation, setValidation] = useState<ValidationErrors>({})
+
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -30,6 +37,11 @@ export const LoginForm: React.FC = observer(() => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     authorizationStore.clearError()
+    
+    const validationCheck = validateLoginForm(login, password)
+    setValidation(validationCheck)
+    if (validationCheck.login || validationCheck.password) return
+
     await authorizationStore.login(login, password, rememberMe)
     if (authorizationStore.isAuthenticated) {
         const redirect = searchParams.get('redirect') || '/';
@@ -38,10 +50,12 @@ export const LoginForm: React.FC = observer(() => {
   }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidation({})
     setLogin(e.target.value)
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidation({})
     setPassword(e.target.value)
   }
 
@@ -57,8 +71,7 @@ export const LoginForm: React.FC = observer(() => {
     )
   }
 
-  const validation = validateLoginForm(login, password)
-  const errorMsg = authorizationStore.error || validation.login || validation.password
+  const hasErrorMsg = authorizationStore.error || validation.login || validation.password
   const isSubmitDisabled = !login.trim() || !password.trim() || authorizationStore.isLoading
   return (
     <form onSubmit={handleSubmit} className="space-y-6 font-inter">
@@ -131,8 +144,8 @@ export const LoginForm: React.FC = observer(() => {
         </label>
       </div>
 
-      {errorMsg && (
-        <div className="text-red-500 text-center">
+      {hasErrorMsg && (
+        <div className="text-red-500 text-center text-sm">
           {authorizationStore.error} {validation.login} {validation.password}
         </div>
       )}

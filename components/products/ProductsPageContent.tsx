@@ -1,14 +1,9 @@
-'use client'
-
-import { observer } from 'mobx-react-lite'
-
 import { ProductsTable } from './ProductsTable'
 import { NavigationPanel } from '../layout/NavigationPanel'
 
 import { Panel } from '@/shared/ui/Panel'
 
-export default observer(
-function ProductsPageContent() {
+const ProductsPageContent: React.FC = () => {
   return (<>
       <NavigationPanel title="Товары" />
       <Panel>
@@ -16,4 +11,6 @@ function ProductsPageContent() {
       </Panel>
     </>
   )
-})
+}
+
+export default ProductsPageContent

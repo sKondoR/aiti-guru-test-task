@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { rootStore } from '@/lib/store/rootStore'
 
-export const User: React.FC = observer(() => {
+const User: React.FC = observer(() => {
   const { authorizationStore: store } = rootStore
 
   if (!store.user) return null
@@ -27,3 +27,5 @@ export const User: React.FC = observer(() => {
       </div>    
   )
 })
+
+export default User

@@ -9,8 +9,7 @@ import { useDebounce } from '@/shared/hooks/useDebounce'
 
 import { rootStore } from '@/lib/store/rootStore'
 
-export default observer(
-function SearchForm() {
+const SearchForm: React.FC = observer(() => {
   const { productsStore: store } = rootStore
   const [inputValue, setInputValue] = useState('')
   const debouncedSearchQuery = useDebounce(inputValue)
@@ -41,3 +40,5 @@ function SearchForm() {
     </div>
   )
 })
+
+export default SearchForm
