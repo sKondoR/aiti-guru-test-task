@@ -19,6 +19,7 @@ export function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedR
       const redirectUrl = `${redirectPath}?redirect=${encodeURIComponent(currentPath)}`
       router.replace(redirectUrl)
     }
+    console.log('isAuthenticated > ', authorizationStore.isAuthenticated);
   }, [authorizationStore.isAuthenticated, redirectPath, router])
 
   if (!authorizationStore.isAuthenticated) {
@@ -28,29 +29,29 @@ export function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedR
   return <>{children}</>
 }
 
-export function useRequireAuth() {
-  const router = useRouter()
-  const currentPath = usePathname()
+// export function useRequireAuth() {
+//   const router = useRouter()
+//   const currentPath = usePathname()
 
-  if (!authorizationStore.isAuthenticated) {
-    const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
-    router.replace(redirectUrl)
-  }
-}
+//   if (!authorizationStore.isAuthenticated) {
+//     const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
+//     router.replace(redirectUrl)
+//   }
+// }
 
-export function withAuth(WrappedComponent: React.ComponentType) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function AuthenticatedComponent(props: any) {
-    const router = useRouter()
-    const currentPath = usePathname()
+// export function withAuth(WrappedComponent: React.ComponentType) {
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   return function AuthenticatedComponent(props: any) {
+//     const router = useRouter()
+//     const currentPath = usePathname()
 
-    if (!authorizationStore.isAuthenticated) {
-      // Сохраняем URL, на который хотели попасть
-      const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
-      router.replace(redirectUrl)
-      return null
-    }
+//     if (!authorizationStore.isAuthenticated) {
+//       // Сохраняем URL, на который хотели попасть
+//       const redirectUrl = `/login?redirect=${encodeURIComponent(currentPath)}`
+//       router.replace(redirectUrl)
+//       return null
+//     }
 
-    return <WrappedComponent {...props} />
-  }
-}
+//     return <WrappedComponent {...props} />
+//   }
+// }

@@ -3,12 +3,14 @@
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { authorizationStore } from '@/lib/store/authorizationStore'
+import { useSearchParams } from "next/navigation";
 
-export const LoginForm = observer(() => {
+export const LoginForm: React.FC = observer(() => {
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     // Проверяем аутентификацию при загрузке
@@ -23,6 +25,8 @@ export const LoginForm = observer(() => {
     e.preventDefault()
     authorizationStore.clearError()
     await authorizationStore.login(login, password, rememberMe)
+    const redirect = searchParams.get('redirect') || '/';
+    window.location.href = redirect || '/';
   }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,42 +41,11 @@ export const LoginForm = observer(() => {
     setRememberMe(e.target.checked)
   }
 
-  const handleLogout = async () => {
-    await authorizationStore.logout()
-  }
-
   if (isCheckingAuth) {
     return (
       <div className="text-center py-8">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         <p className="mt-4 text-gray-600">Проверка авторизации...</p>
-      </div>
-    )
-  }
-
-  if (authorizationStore.isAuthenticated && authorizationStore.user) {
-    return (
-      <div className="text-center space-y-4">
-        <div className="w-20 h-20 mx-auto rounded-full overflow-hidden border-4 border-blue-600">
-          <img
-            src={authorizationStore.user.image}
-            alt={authorizationStore.user.username}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900">
-            {authorizationStore.user.firstName} {authorizationStore.user.lastName}
-          </h3>
-          <p className="text-gray-600">@{authorizationStore.user.username}</p>
-          <p className="text-gray-500 text-sm">{authorizationStore.user.email}</p>
-        </div>
-        <button
-          onClick={handleLogout}
-          className="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition font-medium"
-        >
-          Выйти
-        </button>
       </div>
     )
   }
