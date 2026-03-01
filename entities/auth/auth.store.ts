@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { AuthUser } from './auth.types'
+import type { AuthUser } from './auth.types'
 
 export class AuthorizationStore {
   isAuthenticated = false

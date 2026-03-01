@@ -6,7 +6,7 @@ import ProductTemplate from '../templates/ProductTemplate'
 import RatingTemplate from '../templates/RatingTemplate'
 import SelectTemplate from '../templates/SelectTemplate'
 
-import { Product } from '@/entities/product/product.types'
+import type { Product } from '@/entities/product/product.types'
 import { BRAND_COL, CHECKBOX_COL, RATING_COL, TITLE_COL } from '@/entities/product/products.constants'
 
 interface CellProps {

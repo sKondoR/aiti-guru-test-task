@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { API_URL } from '@/shared/constants'
-import { AuthResponse, DummyJsonAuthResponse } from '@/entities/auth/auth.types'
+import type { AuthResponse, DummyJsonAuthResponse } from '@/entities/auth/auth.types'
 
 export async function POST(request: NextRequest) {
   try {

@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { WARNING_RATING } from '@/shared/constants'
-
-import { Product } from '@/entities/product/product.types'
+import type { Product } from '@/entities/product/product.types'
 
 
 interface RatingTemplateProps {

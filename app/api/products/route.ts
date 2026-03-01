@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError } from '@/lib/errorHandler'
 import { API_URL } from '@/shared/constants'
-import { ProductsResponse } from '@/entities/product/product.types'
+import type { ProductsResponse } from '@/entities/product/product.types'
 
 export async function GET(request: NextRequest) {
   try {

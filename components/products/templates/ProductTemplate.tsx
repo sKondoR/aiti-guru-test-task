@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { THUMBBNAIL_URL } from '@/shared/constants'
 
-import { Product } from '@/entities/product/product.types'
+import type { Product } from '@/entities/product/product.types'
 
 interface ProductTemplateProps {
   item: Product;

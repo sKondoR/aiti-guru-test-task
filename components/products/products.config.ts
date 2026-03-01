@@ -1,5 +1,5 @@
 
-import type { TableColumn } from '@/entities/product/productConfig.types'
+import type { TableColumn } from '@/entities/product/product-config.types'
 import { ACTIONS_COL, CHECKBOX_COL, RATING_COL, TITLE_COL, BRAND_COL } from '@/entities/product/products.constants'
 
 export const productsConfig: TableColumn[] = [

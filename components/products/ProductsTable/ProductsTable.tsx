@@ -10,8 +10,8 @@ import Cell from './Cell'
 import { Pagination } from './Pagination'
 
 import { rootStore } from '@/lib/store/rootStore'
-import { TableColumn } from '@/entities/product/productConfig.types'
-import { Product } from '@/entities/product/product.types'
+import type { TableColumn } from '@/entities/product/product-config.types'
+import type { Product } from '@/entities/product/product.types'
 import { getEmptyProducts } from '@/entities/product/products.utils'
 
 export const ProductsTable: React.FC = observer(() => {

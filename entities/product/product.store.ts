@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { QueryClient, QueryObserver } from '@tanstack/react-query'
 import { isArraysEqualUnordered } from '@/shared/utils'
-import { Product, ProductsResponse } from './product.types'
+import type { Product, ProductsResponse } from './product.types'
 
 export type SortOrder = 'asc' | 'desc'
 
