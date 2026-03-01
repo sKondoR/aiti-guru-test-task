@@ -1,5 +1,4 @@
 import ProductsPageContent from '@/components/products/ProductsPageContent'
-
 import { ProtectedRoute } from '@/lib/auth/ProtectedRoute'
 
 export default function HomePage() {
