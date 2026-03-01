@@ -25,6 +25,7 @@
 
   --input-bg: #ffffff;
   --input-bg-secondary: var(--color-gray3);
+  --input-border: var(--color-gray4);
   
   .bg-gray3 { background-color: var(--color-gray3) } /* search bg */
   .border-gray4 { border-color: var(--color-gray4) }; /* input borders */
@@ -73,13 +74,5 @@ svg[class*="fa-"] {
   height: 1em;
 }
 
-input[type=checbox]:checked::after {
-  display: none;
-}
-
-input[type=checbox]:checked {
-  appearance: none;
- -webkit-appearance: none;
-}
 
 
