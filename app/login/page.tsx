@@ -1,5 +1,6 @@
-import { Logo } from "@/components/layout/Logo";
 import { LoginForm } from "@/components/LoginForm";
+
+import { Logo } from "@/shared/ui/Logo";
 import { LoginPanel } from "@/shared/ui/LoginPanel";
 
 export default function LoginPage() {
