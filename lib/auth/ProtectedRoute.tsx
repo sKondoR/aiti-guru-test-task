@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { authorizationStore } from 'lib/store/authorizationStore'
+import { authorizationStore } from '@/entities/auth/auth.store'
 import React from 'react'
 
 interface ProtectedRouteProps {

@@ -1,13 +1,16 @@
-import { Product } from '@/types';
 import React from 'react';
 import Image from 'next/image';
+
+import { THUMBBNAIL_URL } from '@/shared/constants'
+
+import { Product } from '@/entities/product/product.types'
 
 interface ProductTemplateProps {
   item: Product;
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({ item }) => {
-  const proxyUrl = item.thumbnail?.replace('https://cdn.dummyjson.com', '/api/dummy-image');
+  const proxyUrl = item.thumbnail?.replace(THUMBBNAIL_URL, '/api/dummy-image');
   // console.log('proxyUrl: ', proxyUrl);
   return (
     <div className="flex min-h-[48px]">

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { authorizationStore } from '@/lib/store/authorizationStore'
+import { authorizationStore } from '@/entities/auth/auth.store'
 import { useSearchParams } from "next/navigation";
 
 export const LoginForm: React.FC = observer(() => {
@@ -25,8 +25,10 @@ export const LoginForm: React.FC = observer(() => {
     e.preventDefault()
     authorizationStore.clearError()
     await authorizationStore.login(login, password, rememberMe)
-    const redirect = searchParams.get('redirect') || '/';
-    window.location.href = redirect || '/';
+    if (authorizationStore.isAuthenticated) {
+        const redirect = searchParams.get('redirect') || '/';
+        window.location.href = redirect || '/';        
+    }
   }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { ProductsStore } from '@/lib/store/productsStore'
+import { ProductsStore } from '@/entities/product/product.store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 

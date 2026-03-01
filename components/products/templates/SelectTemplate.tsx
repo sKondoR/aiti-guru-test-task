@@ -1,9 +1,11 @@
 'use client'
 
-import { rootStore } from '@/lib/store/rootStore';
-import { Product } from '@/types'
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react'
 import React from 'react'
+
+import { rootStore } from '@/lib/store/rootStore'
+
+import { Product } from '@/entities/product/product.types'
 
 interface SelectTemplateProps {
   item?: Product

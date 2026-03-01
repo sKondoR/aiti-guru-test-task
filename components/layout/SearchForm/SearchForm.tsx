@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useDebounce } from '@/lib/hooks/useDebounce'
 import { observer } from 'mobx-react-lite'
-import { rootStore } from '@/lib/store/rootStore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+import { useDebounce } from '@/shared/hooks/useDebounce'
+
+import { rootStore } from '@/lib/store/rootStore'
 
 export default observer(
 function SearchForm() {

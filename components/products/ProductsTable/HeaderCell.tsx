@@ -1,14 +1,14 @@
 'use client'
 
-import { Product } from '@/types';
 import React from 'react';
-import { ACTIONS_COL, CHECKBOX_COL } from '../products.constants';
+import { ACTIONS_COL, CHECKBOX_COL } from '../../../entities/product/products.constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { rootStore } from '@/lib/store/rootStore';
 import { observer } from 'mobx-react';
-import { TableColumn } from '@/types/productConfig';
+import { TableColumn } from '@/entities/product/productConfig.types';
 import SelectTemplate from '../templates/SelectTemplate';
+import { Product } from '@/entities/product/product.types';
+import { rootStore } from '@/lib/store/rootStore';
 
 interface HeaderCellProps {
   col: TableColumn

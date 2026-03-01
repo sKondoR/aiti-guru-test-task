@@ -1,16 +1,18 @@
 'use client'
 
 import { observer } from 'mobx-react-lite'
-import { productsConfig } from '../products.config'
-import { Product } from '@/types'
-import Cell from './Cell'
-import { Pagination } from './Pagination'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { rootStore } from '@/lib/store/rootStore'
-import { getEmptyProducts } from '../products.utils'
-import { TableColumn } from '@/types/productConfig'
+
+import { productsConfig } from '../products.config'
 import HeaderCell from './HeaderCell'
+import Cell from './Cell'
+import { Pagination } from './Pagination'
+
+import { rootStore } from '@/lib/store/rootStore'
+import { TableColumn } from '@/entities/product/productConfig.types'
+import { Product } from '@/entities/product/product.types'
+import { getEmptyProducts } from '@/entities/product/products.utils'
 
 export const ProductsTable = observer(() => {
   const { productsStore: store } = rootStore;

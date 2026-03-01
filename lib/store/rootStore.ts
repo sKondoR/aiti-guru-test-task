@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
-import { ProductsStore } from './productsStore'
-import { AuthorizationStore } from './authorizationStore'
+import { ProductsStore } from '../../entities/product/product.store'
+import { AuthorizationStore } from '../../entities/auth/auth.store'
 
 export class RootStore {
   queryClient: QueryClient;

@@ -1,6 +1,6 @@
 
-import type { TableColumn } from '@/types/productConfig';
-import { ACTIONS_COL, CHECKBOX_COL, RATING_COL, TITLE_COL, BRAND_COL } from './products.constants';
+import type { TableColumn } from '@/entities/product/productConfig.types'
+import { ACTIONS_COL, CHECKBOX_COL, RATING_COL, TITLE_COL, BRAND_COL } from '@/entities/product/products.constants'
 
 export const productsConfig: TableColumn[] = [
     { id: 'col-checkbox', prop: CHECKBOX_COL, width: 38 },

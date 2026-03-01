@@ -1,5 +1,5 @@
-import type { Product } from './product';
-import { ACTIONS_COL, CHECKBOX_COL } from '@/components/products/products.constants';
+import type { Product } from './product.types';
+import { ACTIONS_COL, CHECKBOX_COL } from '@/entities/product/products.constants';
 
 export interface ProductColumn {
   name: string

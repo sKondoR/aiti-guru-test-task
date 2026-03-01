@@ -1,5 +1,6 @@
-import { Product } from '@/types';
-import React from 'react';
+import React from 'react'
+
+import { Product } from '@/entities/product/product.types'
 
 interface RatingTemplateProps {
   item: Product;
