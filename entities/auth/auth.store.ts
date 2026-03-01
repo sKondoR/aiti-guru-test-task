@@ -83,7 +83,6 @@ export class AuthorizationStore {
       storage.setItem('username', data.user.username)
       storage.setItem('userId', data.user.id)
 
-
       this.isLoading = false
     } catch (error) {
       console.error('Login error:', error)
@@ -117,8 +116,6 @@ export class AuthorizationStore {
 
   logout() {
     this.isAuthenticated = false
-    // Явное присвоение null для лучшей реактивности
-    console.log('this.user3> ', null);
     this.user = null
     this.rememberMe = false
 
@@ -130,6 +127,8 @@ export class AuthorizationStore {
     sessionStorage.removeItem('refreshToken')
     sessionStorage.removeItem('username')
     sessionStorage.removeItem('userId')
+    console.log('logout')
+    // window.location.href = '/'
   }
 
   updateRememberMe(value: boolean) {
