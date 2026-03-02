@@ -1,8 +1,11 @@
 # Тестовое задание в компанию Aiti Guru
 
+🌐 [https://aiti-guru-test-task-theta.vercel.app](https://aiti-guru-test-task-theta.vercel.app)
+
 ## API:
-В качестве источника данных использовать публичное API: DummyJSON Products https://dummyjson.com/docs/products
-Для авторизации использовать: DummyJSON Auth https://dummyjson.com/docs/auth
+
+В качестве источника данных использовать публичное API: [DummyJSON Products](https://dummyjson.com/docs/products)
+Для авторизации использовать: [DummyJSON Auth](https://dummyjson.com/docs/auth)
 
 ## Условия:
 
