@@ -2,6 +2,8 @@
 
 🌐 [https://aiti-guru-test-task-theta.vercel.app](https://aiti-guru-test-task-theta.vercel.app)
 
+emilys / emilyspass - для авторизации
+
 ## API:
 
 В качестве источника данных использовать публичное API: [DummyJSON Products](https://dummyjson.com/docs/products)
